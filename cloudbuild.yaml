@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'filebeat']
+  args: ['apply', '-f', 'cif-launchpad']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
