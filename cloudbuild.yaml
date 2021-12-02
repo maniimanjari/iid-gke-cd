@@ -1,8 +1,26 @@
 steps:
+#- id: kubectl-proxy
+#  name: gcr.io/cloud-builders/docker
+#  entrypoint: sh
+#  args:
+#    - -c
+#    - docker run -d --net cloudbuild --name kubectl-proxy
+#      gcr.io/cloud-builders/gcloud compute start-iap-tunnel
+#      us-west1-cluster-1-bastion 8080 --local-host-port 0.0.0.0:8080 --zone us-east1-b &&
+#      sleep 5
+#
+#- id: setup-k8s
+#  name: gcr.io/cloud-builders/kubectl
+#  entrypoint: sh
+#  args:
+#    - -c
+#    - HTTPS_PROXY=socks5://kubectl-proxy:8080 kubectl apply -f config.yml
+
+
 - name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: sh
   args:
-  - '-c'
+  - -c
   - |
     kubectl apply -f ./cif-launchpad/* -f ./filebeat/* -f ./westid-rna/*
   env:
