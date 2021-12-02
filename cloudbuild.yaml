@@ -1,21 +1,31 @@
 steps:
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'cif-launchpad']
+  entrypoint: sh
+  args:
+  - '-c'
+  - |
+    kubectl apply -f ./cif-launchpad/* -f ./filebeat/* -f ./westid-rna/*
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'westid-rna']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
-
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'filebeat']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  args: ['apply', '-f', 'cif-launchpad']
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  args: ['apply', '-f', 'westid-rna']
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  args: ['apply', '-f', 'filebeat']
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
 #West Cluster
 #- name: 'gcr.io/cloud-builders/kubectl'
