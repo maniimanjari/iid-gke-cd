@@ -4,14 +4,7 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
-executionConfigs:
-  - privatePool:
-      workerPool: "projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid"
-    usages:
-      - DEPLOY
-  - defaultPool:
-    usages:
-      - RENDER
-#options:
-#  pool:
-#    name: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
+timeout: 360s
+options:
+  pool:
+    name: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
