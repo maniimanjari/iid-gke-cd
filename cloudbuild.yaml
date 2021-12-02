@@ -1,23 +1,23 @@
 steps:
-- id: kubectl-proxy
-  name: gcr.io/cloud-builders/docker
-  entrypoint: sh
-  args:
-    - -c
-    - docker run -d --net cloudbuild --name kubectl-proxy
-      gcr.io/cloud-builders/gcloud compute start-iap-tunnel
-      us-west1-cluster-1-bastion 8080 --local-host-port 0.0.0.0:8080 --zone us-east1-b &&
-      sleep 5
-
-- id: setup-k8s
-  name: gcr.io/cloud-builders/kubectl
-  entrypoint: sh
-  args:
-    - -c
-    - HTTPS_PROXY=socks5://kubectl-proxy:8080 kubectl apply -f ./cif-launchpad/*
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+#- id: kubectl-proxy
+#  name: gcr.io/cloud-builders/docker
+#  entrypoint: sh
+#  args:
+#    - -c
+#    - docker run -d --net cloudbuild --name kubectl-proxy
+#      gcr.io/cloud-builders/gcloud compute start-iap-tunnel
+#      us-west1-cluster-1-bastion 8080 --local-host-port 0.0.0.0:8080 --zone us-east1-b &&
+#      sleep 5
+#
+#- id: setup-k8s
+#  name: gcr.io/cloud-builders/kubectl
+#  entrypoint: sh
+#  args:
+#    - -c
+#    - HTTPS_PROXY=socks5://kubectl-proxy:8080 kubectl apply -f ./cif-launchpad/*
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  entrypoint: sh
@@ -28,6 +28,7 @@ steps:
 #  env:
 #  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
+
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  args: ['apply', '-f', 'cif-launchpad']
@@ -48,20 +49,23 @@ steps:
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
 #West Cluster
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  args: ['apply', '-f', 'cif-launchpad']
-#  env:
-#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
-#
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  args: ['apply', '-f', 'westid-rna']
-#  env:
-#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
-#
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  args: ['apply', '-f', 'filebeat']
-#  env:
-#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'cif-launchpad']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'westid-rna']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'filebeat']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+options:
+  workerPool:
+    'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid
