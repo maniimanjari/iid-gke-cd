@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: cif-launchpad
+  labels:
+    app: cif-launchpad
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"lp-backendconfig"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: cif-launchpad
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: westid-rna
+  labels:
+    app: westid-rna
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"rna-backendconfig"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+    #cloud.google.com/app-protocols: '{"my-https-port":"HTTPS","my-http-port":"HTTP"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: westid-rna
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

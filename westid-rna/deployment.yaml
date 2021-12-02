@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: westid-rna
+  labels:
+    app: westid-rna
+spec:
+  selector:
+    matchLabels:
+      app: westid-rna
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: westid-rna
+    spec:
+      containers:
+        - name: westid-rna
+          image: gcr.io/cc-bo-portals-devtest-01/westid-rna:latest
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=westid-rna -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.app_name=lp-gcp-app -javaagent:/newrelic/newrelic.jar -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.licenseKey=d67210cdd7109fefbfdf3b9739f77e7d53acee76"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "qa"
+            - name: SPRING_APPLICATION_NAME
+              value: "westid-rna"
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /message
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: westid-rna
+              mountPath: /config
+      volumes:
+        - name: westid-rna
+          configMap:
+            name: westid-rna-qa

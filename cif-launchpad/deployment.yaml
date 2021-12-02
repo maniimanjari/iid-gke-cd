@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: cif-launchpad
+  labels:
+    app: cif-launchpad
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cif-launchpad
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: cif-launchpad
+    spec:
+      containers:
+        - name: cif-launchpad
+          image: gcr.io/cc-bo-portals-devtest-01/cif-launchpad:latest
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=cif-launchpad -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.app_name=lp-gcp-app -javaagent:/newrelic/newrelic.jar -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.licenseKey=d67210cdd7109fefbfdf3b9739f77e7d53acee76"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "qa"
+            - name: SPRING_APPLICATION_NAME
+              value: "cif-launchpad"
+#            - name: HOSTNAME
+#              valueFrom:
+#                fieldRef:
+#                  fieldPath: metadata.name
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /endpoints/health
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: cif-launchpad
+              mountPath: /config
+      volumes:
+        - name: cif-launchpad
+          configMap:
+            name: cif-launchpad-qa
