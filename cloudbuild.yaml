@@ -68,4 +68,4 @@ steps:
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
 options:
   workerPool:
-    'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid
+    'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
