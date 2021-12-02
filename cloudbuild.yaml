@@ -5,5 +5,4 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
 options:
-  pool:
-    name: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
+  workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
