@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: ciapi-business-service
+  creationTimestamp: null
+  labels:
+    app: ciapi-business-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "ciapi-business-service"}'
+spec:
+  ports:
+  - name: ciapi-business-service
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ciapi-business-service
+  type: ClusterIP

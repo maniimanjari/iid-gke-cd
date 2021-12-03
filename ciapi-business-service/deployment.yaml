@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: ciapi-business-service
+  creationTimestamp: null
+  labels:
+    app: ciapi-business-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ciapi-business-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ciapi-business-service
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-business-service:FB-DEVOPS-451-202112030458-bbf5844
+          imagePullPolicy: Always
+          name: ciapi-business-service
+          env:
+              - name: JAVA_TOOL_OPTIONS
+                value: "-Dserver.port=80 -Dspring.application.name=ciapi-business-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ciapi-business-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -javaagent:/newrelic/newrelic.jar -Dnewrelic.environment=test"
+              - name: SPRING_PROFILES_ACTIVE
+                value: "qa,swn01-qa"
+              - name: SPRING_APPLICATION_NAME
+                value: "ciapi-business-service"
+#          resources:
+#            requests:
+#              cpu: 200m
+#              memory: 256Mi
+#            limits:
+#              cpu: 500m
+#              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /message
+              port: 80
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+#          # Configure the readiness probe
+#          readinessProbe:
+#            httpGet:
+#              path: /message
+#              port: 8080
+          volumeMounts:
+            - name: ciapi-business-service
+              mountPath: /config
+      volumes:
+        - name: ciapi-business-service
+          configMap:
+            name: ciapi-business-service-qa
+status: {}
