@@ -8,4 +8,4 @@ steps:
 timeout: 1200s
 options:
   pool:
-    name: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid123'
+    name: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/iid'
