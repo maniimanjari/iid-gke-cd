@@ -24,13 +24,13 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  #args: ['apply', '-f', 'cif-launchpad']
-  args: ['get', 'nodes']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
-timeout: 1200s
-options:
-  pool:
-    name: 'projects/cc-bo-portals-devtest-01/locations/us-west1/workerPools/iid-qa-worker-pool'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  #args: ['apply', '-f', 'cif-launchpad']
+#  args: ['get', 'nodes']
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-west-gke'
+#timeout: 1200s
+#options:
+#  pool:
+#    name: 'projects/cc-bo-portals-devtest-01/locations/us-west1/workerPools/iid-qa-worker-pool'
