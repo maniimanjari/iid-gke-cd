@@ -31,7 +31,7 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-timeout: 300s
+timeout: 400s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
