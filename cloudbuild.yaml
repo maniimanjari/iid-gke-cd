@@ -26,7 +26,7 @@ steps:
 
 #west
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'cif-launchpad']
+  args: ['apply', '-f', 'filebeat']
   #args: ['get', 'nodes']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
