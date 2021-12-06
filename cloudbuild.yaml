@@ -29,7 +29,7 @@ steps:
   #args: ['apply', '-f', 'cif-launchpad']
   args: ['get', 'nodes']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-us-west1-a'
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 timeout: 1200s
 options:
