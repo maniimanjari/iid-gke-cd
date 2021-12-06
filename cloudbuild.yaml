@@ -26,11 +26,12 @@ steps:
 
 #west
 - name: 'gcr.io/cloud-builders/kubectl'
-  #args: ['apply', '-f', 'cif-launchpad']
-  args: ['get', 'nodes']
+  args: ['apply', '-f', 'cif-launchpad']
+  #args: ['get', 'nodes']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 timeout: 300s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
+  logging: CLOUD_LOGGING_ONLY
