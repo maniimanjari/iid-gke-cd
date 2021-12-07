@@ -1,9 +1,8 @@
 steps:
 #west Cluster
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+- name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
-  entrypoint: 'kubectl'
-  args: ['--insecure-skip-tls-verify','get', 'nodes']
+  args: ['get', 'nodes']
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
