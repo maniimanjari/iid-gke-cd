@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir -p out
 for i in $(ls -d */); do
   if [[  $i == ci* ]]; then
