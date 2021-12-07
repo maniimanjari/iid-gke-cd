@@ -1,40 +1,65 @@
 steps:
 #west Cluster
-- name: 'ubuntu'
-  id: 'prepare-build'
-  args: ['bash', './prepare-build.sh']
-  waitFor:
-    - '-'
-
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
   args: ['apply', '-f', 'config']
   env:
+    - 'PROJECT_NAME=cc-bo-portals-devtest-02'
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
   waitFor:
     - '-'
-
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-apis'
-  args: ['apply', '-f', 'stage-apis']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-  waitFor:
-    - 'prepare-build'
-    - 'push-configs'
-
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-portals'
-  args: ['apply', '-f', 'stage-portals']
-  env:
-    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-  waitFor:
-    - 'prepare-build'
-    - 'push-configs'
-    - 'push-apis'
+#- name: 'ubuntu'
+#  id: 'prepare-build'
+#  args: ['bash', './prepare-build.sh']
+#  waitFor:
+#    - '-'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-configs'
+#  args: ['apply', '-f', 'config']
+#  env:
+#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+#  waitFor:
+#    - '-'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-apis'
+#  args: ['apply', '-f', 'stage-apis']
+#  env:
+#  - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+#  waitFor:
+#    - 'prepare-build'
+#    - 'push-configs'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-portals'
+#  args: ['apply', '-f', 'stage-portals']
+#  env:
+#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+#  waitFor:
+#    - 'prepare-build'
+#    - 'push-configs'
+#    - 'push-apis'
+#
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-ingress-west'
+#  args: ['apply', '-f', 'ingress-west']
+#  env:
+#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+#  waitFor:
+#    - 'prepare-build'
+#    - 'push-configs'
+#    - 'push-apis'
+#    - 'push-portals'
 
 timeout: 600s
 options:
