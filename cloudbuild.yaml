@@ -25,7 +25,7 @@ steps:
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
 #west
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+- name: 'ubuntu'
   id: 'prepare-build'
   entrypoint: 'bash'
   #args: ['prepare-build.sh']
