@@ -33,7 +33,7 @@ steps:
     - '-c'
     - |
       echo $(ls)
-      prepare-build.sh
+      ./prepare-build.sh
       echo $(ls)
 
 - name: 'gcr.io/cloud-builders/kubectl'
