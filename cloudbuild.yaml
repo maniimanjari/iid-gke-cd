@@ -2,7 +2,7 @@ steps:
 #west Cluster
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
-  args: ['get', 'nodes','--insecure-skip-tls-verify=true']
+  args: ['apply', '-f', 'filebeat','--insecure-skip-tls-verify=true']
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
     - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
