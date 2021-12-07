@@ -1,0 +1,279 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  creationTimestamp: null
+  name: westid-rna-qa
+  #resourceVersion: "1.2"
+  #uid: f1be7bdd-4ed8-4f55-927b-580bb9853eb3
+data:
+  application-qa.yml: |
+    ---
+    message: "***|WESTID-RNA|***"
+    app.test.message1: "<1 rams again>"
+    app.test.message2: "<2 next time>"
+    server.port: ${PORT:8080}
+    server.ssl.enabled: false
+    server.ssl.key-store: classpath:cilpKeyStore.jks
+    server.ssl.key-password: cilp7!
+    server.ssl.key-store-password: cilp7!
+    server.ssl.keyStoreType: JKS
+    server.ssl.keyAlias: cilpui
+    server.ssl.trust-store: classpath:cilpKeyStore.jks
+    server.ssl.trust-store-password: cilp7!
+    server.ssl.trust-store-type: JKS
+
+    server.tomcat.additional-tld-skip-patterns: woodstox-*.jar,txw2*.jar,hk2*.jar,class*.jar,config*.jar,tiger-*.jar,bean-*.jar,jtype*.jar,auto-*.jar,javax.inject*.jar,asm-all-*.jar,osgi-*.jar,jaxb-*.jar,pfl-*.jar,policy*.jar,saaj-*.jar,stax-*.jar,stax2-*.jar,streambuffer.jar,jakarta*.jar,FastInfoset.jar,gmbal*.jar,ha-*.jar,istack-*.jar,management-*.jar,mimepull.jar,jaxws-*.jar
+
+    nr.insights.enabled: true
+    ci.lp.sites: '{''hootRetail'': ''hootmeeting.com'',''hootWholesale'': ''conferencing.com'',''lpRetail'': ''intrado.com'',''lpWholesale'': ''uccenter.com''}'
+
+    ci.lp.sites.app.names: '{''hootRetail'': ''HOOT'',''hootWholesale'': ''UMX'',''lpRetail'': ''INTRADO'',''lpWholesale'': ''UCCENTER''}'
+    ci.lp.sites.brand.tags: '{''hootRetail'': ''HOOT'',''hootWholesale'': ''UMX'',''lpRetail'': ''INTRADO'',''lpWholesale'': ''UCCENTER''}'
+    ci.lp.sites.products.order: '{''HTPRD'': ''1'',''HTCL'': ''2'',''HTMBL'': ''3'',''HTHM'': ''4'',''HTOUTL'': ''5'',''none'': ''100''}'
+    ci.lp.sites.features.order: '{''NEW'': ''1'',''IMPROVEMENTS'': ''2'',''RESOLVED'': ''3'',''NONE'': ''100''}'
+
+    rest.service.read.timeout: 500000
+    rest.service.read.request: 500000
+
+    spring.thymeleaf.cache: false
+    server.compression.enabled: true
+    spring.resources.cache.cachecontrol.cache-public: true
+    spring.resources.cache.cachecontrol.no-cache: false
+    spring.resources.cache.cachecontrol.no-store: false
+    spring.resources.cache.cachecontrol.must-revalidate: false
+    spring.resources.cache.cachecontrol.max-age: 31536000
+    server.compression.mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml # Comma-separated list of MIME types that should be compressed.
+    server.compression.min-response-size: 2KB # Minimum "Content-Length" value that is required for compression to be performed.
+
+    rna.site.retail.tc.url: https://www.westuc.com/en-us/terms-conditions-rams2
+    rna.site.retail.privacy.url: https://www.west.com/legal-privacy-grams2
+    rna.site.wholesale.tc.url: https://www.uccenter.com/terms.php
+    rna.site.wholesale.privacy.url: https://www.uccenter.com/privacy.php
+
+    management.endpoints.web.exposure.include: '*'
+    rn.spring.security.user.name: admin
+    rn.spring.security.user.password: Testing1
+    rn.spring.security.user.roles: ADMIN
+
+    logging:
+      pattern:
+        console: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},,%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+        level: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},,%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+      level:
+        root: DEBUG
+        org:
+          apache:
+            http: DEBUG
+          springframework: ERROR
+          springframework.security.oauth2.client.OAuth2RestOperations: DEBUG
+          springframework.security.web.DefaultRedirectStrategy: DEBUG
+        springfox:
+          documentation: ERROR
+        com.newrelic: INFO
+
+    rn.apigee.apikey: gj5UyZeeydxKWIgWdotWFZ9urjlfN1sc
+    rn.apigee.url: http://ciapi-release-notes-service:80
+    rn.client.endpoint: /client/viewRelease
+    rn.client.archive.endpoint: /client/viewOldRelease
+    rn.admin.endpoint: /client/adminReleaseView
+    rn.supported.language: en-US,fr-CA,en,fr
+
+    security:
+      oauth2:
+        client:
+          accessTokenUri: https://cidm-qa.uccenter.com/oauth2/token
+          authorized-grant-types: client_credentials
+          clientId: a6NDRyOG5lGiAQ9B4fzAs97dolEa
+          clientSecret: ActiSU_024Z9up_KfcE3FJ4Txj8a
+          grant-type: client_credentials
+        resource:
+          jwt:
+            keyValue: |
+              -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQ
+              WwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9ii
+              jpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE
+              0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQm
+              dc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNK
+              mAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9
+              fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB
+              -----END PUBLIC KEY-----
+
+    server:
+      error:
+        path: /error.htm
+        whitelabel:
+          enabled: false
+      tomcat:
+        uri-encoding: UTF-8
+      servlet:
+        context-path: /
+        session:
+          tracking-modes: cookie
+          timeout: 60m
+
+    spring:
+      aop:
+        proxy-target-class: true
+      application:
+        name: westid-rna
+      cloud:
+        bus:
+          enabled: true
+          trace:
+            enabled: true
+      http:
+        encoding:
+          charset: UTF-8
+      locale:
+        cookie:
+          name: my-locale-cookie
+      messages:
+        encoding: UTF-8
+      mvc:
+        favicon:
+          enabled: false
+      profiles:
+        active: default
+      servlet:
+        multipart:
+          enabled: true
+    pcf.new.env: false
+    apigee.endpoint.env.value: new-pcf-gtm
+  application-local.yml: |
+    ---
+    server.port: ${PORT:8080}
+    server.ssl.enabled: false
+    server.ssl.key-store: classpath:cilpKeyStore.jks
+    server.ssl.key-password: cilp7!
+    server.ssl.key-store-password: cilp7!
+    server.ssl.keyStoreType: JKS
+    server.ssl.keyAlias: cilpui
+    server.ssl.trust-store: classpath:cilpKeyStore.jks
+    server.ssl.trust-store-password: cilp7!
+    server.ssl.trust-store-type: JKS
+
+    server.tomcat.additional-tld-skip-patterns: woodstox-*.jar,txw2*.jar,hk2*.jar,class*.jar,config*.jar,tiger-*.jar,bean-*.jar,jtype*.jar,auto-*.jar,javax.inject*.jar,asm-all-*.jar,osgi-*.jar,jaxb-*.jar,pfl-*.jar,policy*.jar,saaj-*.jar,stax-*.jar,stax2-*.jar,streambuffer.jar,jakarta*.jar,FastInfoset.jar,gmbal*.jar,ha-*.jar,istack-*.jar,management-*.jar,mimepull.jar,jaxws-*.jar
+
+    nr.insights.enabled: true
+    ci.lp.sites: '{''hootRetail'': ''hootmeeting.com'',''hootWholesale'': ''conferencing.com'',''lpRetail'': ''intrado.com'',''lpWholesale'': ''uccenter.com''}'
+
+    ci.lp.sites.app.names: '{''hootRetail'': ''HOOT'',''hootWholesale'': ''UMX'',''lpRetail'': ''INTRADO'',''lpWholesale'': ''UCCENTER''}'
+    ci.lp.sites.brand.tags: '{''hootRetail'': ''HOOT'',''hootWholesale'': ''UMX'',''lpRetail'': ''INTRADO'',''lpWholesale'': ''UCCENTER''}'
+    ci.lp.sites.products.order: '{''HTPRD'': ''1'',''HTCL'': ''2'',''HTMBL'': ''3'',''HTHM'': ''4'',''HTOUTL'': ''5'',''none'': ''100''}'
+    ci.lp.sites.features.order: '{''NEW'': ''1'',''IMPROVEMENTS'': ''2'',''RESOLVED'': ''3'',''NONE'': ''100''}'
+
+    rest.service.read.timeout: 500000
+    rest.service.read.request: 500000
+
+    spring.thymeleaf.cache: false
+    server.compression.enabled: true
+    spring.resources.cache.cachecontrol.cache-public: true
+    spring.resources.cache.cachecontrol.no-cache: false
+    spring.resources.cache.cachecontrol.no-store: false
+    spring.resources.cache.cachecontrol.must-revalidate: false
+    spring.resources.cache.cachecontrol.max-age: 31536000
+    server.compression.mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml # Comma-separated list of MIME types that should be compressed.
+    server.compression.min-response-size: 2KB # Minimum "Content-Length" value that is required for compression to be performed.
+
+    rna.site.retail.tc.url: https://www.westuc.com/en-us/terms-conditions-policies
+    rna.site.retail.privacy.url: https://www.west.com/legal-privacy
+    rna.site.wholesale.tc.url: https://www.uccenter.com/terms.php
+    rna.site.wholesale.privacy.url: https://www.uccenter.com/privacy.php
+
+    management.endpoints.web.exposure.include: '*'
+    rn.spring.security.user.name: admin
+    rn.spring.security.user.password: Testing1
+    rn.spring.security.user.roles: ADMIN
+
+    logging:
+      pattern:
+        console: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},,%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+        level: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},,%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+      level:
+        root: DEBUG
+        org:
+          apache:
+            http: DEBUG
+          springframework: ERROR
+          springframework.security.oauth2.client.OAuth2RestOperations: DEBUG
+          springframework.security.web.DefaultRedirectStrategy: DEBUG
+        springfox:
+          documentation: ERROR
+
+
+    rn.apigee.apikey: gj5UyZeeydxKWIgWdotWFZ9urjlfN1sc
+    rn.apigee.url: http://ciapi-release-notes-service:80
+    rn.client.endpoint: /client/viewRelease
+    rn.client.archive.endpoint: /client/viewOldRelease
+    rn.admin.endpoint: /client/adminReleaseView
+    rn.supported.language: en-US,fr-CA,en,fr
+
+    security:
+      oauth2:
+        client:
+          accessTokenUri: https://cidm-qa.uccenter.com/oauth2/token
+          authorized-grant-types: client_credentials
+          clientId: a6NDRyOG5lGiAQ9B4fzAs97dolEa
+          clientSecret: ActiSU_024Z9up_KfcE3FJ4Txj8a
+          grant-type: client_credentials
+        resource:
+          jwt:
+            keyValue: |
+              -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQ
+              WwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9ii
+              jpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE
+              0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQm
+              dc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNK
+              mAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9
+              fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB
+              -----END PUBLIC KEY-----
+
+    server:
+      error:
+        path: /error.htm
+        whitelabel:
+          enabled: false
+      tomcat:
+        uri-encoding: UTF-8
+      servlet:
+        context-path: /
+        session:
+          tracking-modes: cookie
+          timeout: 60m
+
+    spring:
+      aop:
+        proxy-target-class: true
+      application:
+        name: westid-rna
+      cloud:
+        bus:
+          enabled: true
+          trace:
+            enabled: true
+      http:
+        encoding:
+          charset: UTF-8
+      locale:
+        cookie:
+          name: my-locale-cookie
+      messages:
+        encoding: UTF-8
+      mvc:
+        favicon:
+          enabled: false
+      profiles:
+        active: default
+      servlet:
+        multipart:
+          enabled: true
+    pcf.new.env: false
+    apigee.endpoint.env.value: new-pcf-gtm
+    message: rna-changelog

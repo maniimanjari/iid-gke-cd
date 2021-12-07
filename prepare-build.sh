@@ -1,13 +1,22 @@
 #!/bin/bash
-mkdir -p out
+mkdir -p stage-apis
+mkdir -p stage-portals
 echo "current directory *** $(ls $PWD)"
 for i in $(ls -d */); do
-  if [[  $i == ci* || $i == file* ]]; then
+  if [[  $i == ci-* || $i == file* || $i == ciapi-* ]]; then
     echo $i
       for file in $PWD/${i}/*; do
-        echo "$(basename $PWD/${i})-$(basename "$file")"
-        cp $file ./out/$(basename $PWD/${i})-$(basename "$file");
+        echo "CIAPIs >>> $(basename $PWD/${i})-$(basename "$file")"
+        cp $file ./stage-apis/$(basename $PWD/${i})-$(basename "$file");
+      done;
+  fi
+  if [[  $i == cif-* || $i == westid-* ]]; then
+    echo $i
+      for file in $PWD/${i}/*; do
+        echo "portals >>> $(basename $PWD/${i})-$(basename "$file")"
+        cp $file ./stage-portals/$(basename $PWD/${i})-$(basename "$file");
       done;
   fi
 done
-echo "Execution directory for deployment *** $(ls $PWD/out)"
+echo "Execution directory for apis deployment *** $(ls $PWD/stage-apis)"
+echo "Execution directory for portals deployment *** $(ls $PWD/stage-portals)"

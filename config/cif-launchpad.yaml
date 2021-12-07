@@ -1,0 +1,397 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  creationTimestamp: null
+  name: cif-launchpad-qa
+  #resourceVersion: "1.0"
+  #uid: 7e9ebed2-ae73-45a5-8867-d899a90fe188
+data:
+  application-qa.yml: |
+    ---
+    management.endpoint.health.show-details: always
+    health.config.enabled: false
+    liveagent.deploymentJs: https://c.la3-c1-ia2.salesforceliveagent.com/content/g/js/49.0/deployment.js
+    liveagent.initurl: https://d.la3-c1-ia2.salesforceliveagent.com/chat
+    liveagent.orgid: 57260000000KyjB
+    liveagent.initbuttonId: 00D300000000FAQ
+    live.agent.buttonId: '{''w-en'' : ''5734P000000YALu'',''w-fr'' : ''5734P000000gj3q'',''w-de'' : ''5734P000000gj3v'',''w-it'' : ''5734P000000gj40'',''w-es'' : ''5734P000000gj45'',''w-zh'' :''5734P000000gj4K'',''w-ja'' : ''5734P000000gj4P'',''r-en'' : ''5734P000000YALp'',''r-fr'' : ''5734P000000gj3W'',''r-de'' : ''5734P000000gj3l'',''r-it'' : ''5734P000000gj3b'',''r-es'' : ''5734P000000gj3g'',''r-zh'' : ''5734P000000gj4A'',''r-ja'' : ''5734P000000gj4F''}'
+
+    live.chat.hoot.enabled: true
+    hoot:
+      chatbot:
+        buttonId: '5734P000000HXTE'
+        westUniEnv: '--qatest'
+        community: 'https://qatest-intradocommunities.cs61.force.com'
+        orgId: '00D4C00000017lG'
+        baseLiveAgentContentDomain: 'c.la2-c1cs-ia4'
+        deploymentId: '5724C000000Gmlv'
+        baseLiveAgentDomain: 'd.la2-c1cs-ia4'
+        enable: false
+        oldsiteEnable: false
+    spring.cloud.config.watch.enabled: false
+
+    rp.media.archive.url: https://test-is0.icallinc.com/IntMediaApiRP/services/RPMedia_v1_1_WSPort?wsdl
+    rp.media.archive.app.id: IID_QA_0
+    rp.media.archive.app.token: GazzBK26Nyo7kiiKMMsKJQZzLXM2VOZj0AbfK8XxaNwF67z0
+    rp.media.archive.retail.date.format: MMM dd yyyy hh:mm a
+    rp.media.archive.wholesale.date.format: MMM dd yyyy hh:mm a
+    rp.media.archive.storage.limit: 5
+    rp.media.archive.storage.green: 75
+    rp.media.archive.storage.yellow: 95
+    rp.media.archive.storage.red: 100
+    rp.media.archive.topic.pattern: ^[a-zA-Z0-9][a-zA-Z0-9 _!@#$%&*'.\/\-]{1,256}$
+    rp.media.archive.password.pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%&=?!+.\\-])[A-Za-z\\d@$%&=?!+.\\-]{8,30}$
+    rp.media.ppm.warning.alarm: 5
+    nr.insights.enabled: true
+    server.tomcat.additional-tld-skip-patterns: woodstox-*.jar,txw2*.jar,hk2*.jar,class*.jar,config*.jar,tiger-*.jar,bean-*.jar,jtype*.jar,auto-*.jar,javax.inject*.jar,asm-all-*.jar,osgi-*.jar,jaxb-*.jar,pfl-*.jar,policy*.jar,saaj-*.jar,stax-*.jar,stax2-*.jar,streambuffer.jar,jakarta*.jar,FastInfoset.jar,gmbal*.jar,ha-*.jar,istack-*.jar,management-*.jar,mimepull.jar,jaxws-*.jar
+    server.tomcat.max-threads: 600
+
+    ci.lp.sites: '{''hootRetail'': ''hootmeeting.com'',''hootWholesale'': ''conferencing.com'',''nonHootRetail'': ''intrado.com'',''nonHootWholesale'': ''uccenter.com''}'
+    ci.lp.wholesale.vanity.sites: '{''hootWholesaleVanity1'': ''home.qa.umx.conferencing.com'',''hootWholesaleVanity2'': ''www.qa.umx.conferencing.com''}'
+    ci.lp.retail.vanity.sites: '{''hootRetailVanity1'': ''home.qa.hootmeeting.com'',''hootRetailVanity2'': ''www.qa.hootmeeting.com''}'
+
+    ci.encryption.key: '^@TcYYkl%9839mza'
+    ci.encryption.key.salt: '&Wcvr!#z8pb2lmEz'
+    ci.encryption.is.key: 'UHtY2HBL1yAkEY5ekRETN4J'
+    ci.encryption.iol.key: 'GTiU4QDO9vCqTM3jeRETW0S'
+
+    ci.token.cookie.name: lpInstanceId
+    ci.token.encryption.salt: APPVZA-LP
+    ci.token.encryption.key: q!w2d$we~7@dc*
+    ci.token.expire.days: 30
+    ci.token.cookie.expire.time: 365 * 24 * 60 * 60
+
+    iol.hoot.retail.numbers.link: https://manage.qa.hootmeeting.com/listNumbersByCode.action?confCode=
+    iol.hoot.wholesale.numbers.link: https://manage.qa.umx.conferencing.com/listNumbersByCode.action?confCode=
+
+    ci.hoot.retail.rn.url: https://whatsnew.qa.hootmeeting.com
+    ci.hoot.wholesale.rn.url: https://whatsnew.qa.umx.conferencing.com
+    ci.lp.retail.rn.url: https://whatsnew-qa.intrado.com
+    ci.lp.wholesale.rn.url: https://whatsnew-qa.uccenter.com
+
+    disable.js.logs: false
+    server.compression.enabled: true
+    spring.resources.cache.cachecontrol.cache-public: true
+    spring.resources.cache.cachecontrol.no-cache: false
+    spring.resources.cache.cachecontrol.no-store: false
+    spring.resources.cache.cachecontrol.must-revalidate: true
+    spring.resources.cache.cachecontrol.max-age: 31536000
+    spring.main.allow-bean-definition-overriding: true
+    server.compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css,image/jpeg,image/gif,image/png,image/x-icon
+    server.compression.min-response-size: 2KB
+
+    captcha.site.js.url: https://www.recaptcha.net/recaptcha/api.js?render=explicit&amp;
+    ci.internal.customers: 7001
+    management.endpoints.web.exposure.include: '*'
+    spring.security.user.name: admin
+    spring.security.user.password: none
+    spring.security.user.roles: ADMIN
+    CI_WEST_RETAIL_URL: west
+    CI_WEST_WHOLESALE_URL: uccenter
+    IDENTITY_SERVER_REVOKE_ENDPOINT: https://cidm-qa.uccenter.com/oauth2/revoke
+    CA_LAUNCH_URL: launched?subjects=
+    IOL_LAUNCH_URL: https://www.intercallonline-qa.com/cilpiol?subjects=
+    IOL_LAUNCH_URL_EXTN: cilpiol?subjects=
+    IOL_RP_PARTICIPANT_EXTN: participantPlayback?d=
+    IOL_PSAML_HOST_URL: osso.intercallonline-test.com
+    IOL_PSAML_JKS_FILE: psamliol.jks
+    IOL_PSAML_JKS_PWD: Test1234
+    IOL_PSAML_PARTNER: psaml.intercallonline-test.com
+    IOL_PSAML_REQUESTER: psamliol
+    IOL_PSAML_TYPE: PT
+    IOL_PSAML_VALIDATION_URL: https://osso.intercallonline-test.com/psaml/token
+    IOL_VIEWNUMBERS_URL: https://www.intercallonline-qa.com/listNumbersByCode.action?confCode=
+    IS_FORGOT_PASSWORD_ENDPOINT: https://cidm-qa.uccenter.com/accountrecoveryendpoint/recoverpassword.do
+    IS_USER_REGISTRATION_ENDPOINT: https://cidm-qa.uccenter.com/accountrecoveryendpoint/requestregistration.do
+    IS_LOGOUT_ENDPOINT: https://cidm-qa.uccenter.com/oidc/logout
+    application:
+      url:
+        replace:
+          flag: true
+          with: my.west.com
+        to:
+          replace: my.pub.pcf.one.west.com
+    brand:
+      flg:
+        retail:
+          value: retail
+        wholesale:
+          value: wholesale
+    cache:
+      lp:
+        user:
+          name: user
+          password: West@321
+    captcha:
+      site:
+        verify:
+          key: 6Lfl-hoUAAAAADm_Tj1_ykkDV0eX5lIYifEmuhCU
+          secret:
+            key: 6Lfl-hoUAAAAAHhfG65cMN-Etv4OjNDgF-WnarN-
+          url: https://www.recaptcha.net/recaptcha/api/siteverify
+    cpatcha:
+      simple:
+        enabled: false
+
+    um.app.moniker.pattern: ^[_a-zA-Z0-9\-]{3,56}+$
+    um.app.system.code: umauth
+    um.app.secret.key: qw2d$!we7@dc*
+    um.app.skype.retail.sip: navideo.qa.hootmeeting.com
+    um.app.skype.wholesale.sip: navideo.qa.umx.conferencing.com
+
+    um.app.result.vanity.key: conference.invitation.url
+    um.app.result.pin.key: moderator.audiopincode
+    um.app.result.tollNumber.key: audio.dialin.intl
+    um.app.result.tollFreeNumber.key: audio.dialin.local
+    um.app.result.moderatorConfCode.key: audio.dialin.local
+    um.app.result.participant.ConfCode: moderator.audioconferencecode
+
+    um.app.meeting.host: https://umaut101.set.iconf.net
+    um.app.host: https://meet.lobby101.set.iconf.net
+    um.app.token.endpoint: /gcc/ext_api/getAuthInfoByOwnerId.do
+    um.app.tiny.endpoint: /gcc/tinyurl/performex.do
+    um.app.invitation.endpoint: /gcc/ext_api/getinvitationbylogin.do
+    um.app.joininfo.byname.endpoint: /gcc/getJoinInfoAsJSON.do?user.userName=
+    um.app.joininfo.byconfcode.endpoint: /gcc/getJoinInfoAsJSON.do?bValidateByConfCode=1&lang=en&user.userName=
+    um.app.confmanager.endpoint: /signin?app=launchpad&scheme=confmanager
+    um.app.startMeeting.endpoint: /signin?app=launchpad&scheme=confstart
+    um.app.tiny.email.hold: false
+    um.app.umx.product.hide: true
+    um.app.hoot.learn.url.enabled: true
+    um.app.hoot.retail.learn.url: 'https://learn.intrado.com/hoot/#step1'
+    um.app.hoot.wholesale.learn.url: https://learn.uccenter.com/umx
+    um.app.hoot.retail.learn.video.url: 'https://learn.intrado.com/hoot/#video'
+    um.app.hoot.retail.learn.mobile.url: 'https://learn.intrado.com/hoot/#mobile1'
+    um.app.hoot.retail.quick.start.url: 'https://help.hootmeeting.com/en-us/content/quickstart.htm'
+    um.app.hoot.wholesale.quick.start.url: 'https://help.umx.conferencing.com/en-us/content/quickstart.htm'
+    um.app.hoot.retail.troubleshoot.url: 'https://help.hootmeeting.com/en-us/content/troubleshoot/troubleshoot.htm'
+    um.app.hoot.wholesale.troubleshoot.url: 'https://help.umx.conferencing.com/en-us/content/troubleshoot/troubleshoot.htm'
+    um.app.hoot.retail.sysreq.url: 'https://help.hootmeeting.com/en-us/content/sysreq.htm'
+    um.app.hoot.wholesale.sysreq.url: 'https://help.umx.conferencing.com/en-us/content/sysreq.htm'
+    um.app.hoot.retail.help.url: https://help.hootmeeting.com
+    um.app.hoot.wholesale.help.url: https://help.umx.conferencing.com
+    um.app.hoot.retail.quickstart.guide.url: https://learn.intrado.com/hoot/files/hoot-meetings-quick-start-guide.pdf?utm_source=hoot_learn_page&amp;utm_medium=banner&amp;utm_campaign=hoot_quick_start_guide
+    um.app.hoot.wholesale.quickstart.guide.url: https://www.uccenter.com/files/unified-meeting-x-quick-startguide.pdf
+    um.app.result.moderator.dualPasscode.enabledKey: moderator.dual.passcode.enabled
+    um.app.skype.sip.enabled: true
+    um.app.skype.retail.sip.region: NA=HOOT100|EMEA=HOOT200|APAC=HOOT300
+    um.app.skype.wholesale.sip.region: NA=UMX100|EMEA=UMX200|APAC=UMX300
+    um.app.usage.details.flag: false
+    umx.app.features.show: true
+    umx.app.retail.outlook.url: https://appsource.microsoft.com/en-us/product/office/WA200001670
+    umx.app.wholesale.outlook.url: https://appsource.microsoft.com/en-us/product/office/WA200002011
+    um.app.usage.download.limit: 25
+    um.app.storage.show: true
+    um.app.storage.restriction: true
+    um.app.umSipAddress.enable: false
+    um.app.tiny.url.enable: true
+    um.app.brandid.hoot: 1
+    um.app.brandid.umx: 2
+    um.app.brandid.nonhoot: 0
+    hoot.crm.admin.link.enable: true
+    hoot.edit.pins.enable: false
+    hoot.edit.update.delay: 80000
+    hoot.edit.status.delay: 50000
+    hoot.edit.timer.delay: 30000
+    hoot.walkme.enable: true
+    hoot.walkme.snippet: (function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkme.com/users/a5d66d3ae4674fafb7d5ba0ca0321d6f/test/walkme_a5d66d3ae4674fafb7d5ba0ca0321d6f_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig = {smartLoad:true}; })();
+
+    owner:
+      api:
+        basic:
+          username: manchikanti
+          password: Test123
+
+    logging:
+      pattern:
+        console: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+        level: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+      level:
+        root: DEBUG
+        com:
+          west:
+            ci:
+              log:
+                Slf4jRequestLoggingFilter: DEBUG
+              service:
+                impl:
+                  CILPServiceImpl: DEBUG
+        org:
+          apache:
+            http: DEBUG
+          springframework: ERROR
+          springframework.aop.interceptor.CustomizableTraceInterceptor: TRACE
+          springframework.security.oauth2.client.OAuth2RestOperations: DEBUG
+          springframework.security.web.DefaultRedirectStrategy: DEBUG
+          springframework.web.client.RestTemplate: DEBUG
+          springframework.security.oauth2.client.token.OAuth2AccessTokenSupport: DEBUG
+          springframework.web.client.DefaultResponseErrorHandler: DEBUG
+          springframework.boot.env.PropertySourcesLoader: TRACE
+        springfox:
+          documentation: ERROR
+    lp.old.retail.site.url: https://my-qa.intrado.com/login
+    lp.old.wholesale.site.url: https://my-qa.uccenter.com/login
+    lp.new.retail.site.url: https://my.qa.hootmeeting.com/login
+    lp.new.wholesale.site.url: https://my.qa.umx.conferencing.com/login
+    lp.old.retail.site.url.home: https://my-qa.intrado.com/home.htm
+    lp.old.wholesale.site.url.home: https://my-qa.uccenter.com/home.htm
+    lp.site.redirection.enbaled: true
+    lp.twilio.validation.enabled: true
+    lp:
+      apikey: KJe1RPAibe5k1JU8k6iGCmpwEOzWsPtV
+      language:
+        dropdown:
+          code: '{''en-US'':''English'',''fr-CA'':''French CA'',''nl-NL'':''Dutch'',''de-DE'':''German'',''cs-CZ'':''Czech'',''es-ES'':''Spanish'',''fi-FI'':''Finnish'',''fr-FR'':''French'',''it-IT'':''Italian'',''ja-JP'':''Japanese'',''ko-KR'':''Korean'',''pl-PL'':''Polish'',''pt-PT'':''Portuguese'',''ru-RU'':''Russian'',''sv-SE'':''Swedish'',''zh-CN'':''Simplified Chinese'',''zh-TW'':''TRADITIONAL CHINESE''}'
+          hide: false
+          hootHide: false
+        supported: en-US,fr-CA,en,fr
+        chat:
+          supported: en-US,fr-CA,de-DE,it-IT,es-ES,zh-CN,ja-JP,en,fr,de,it,es,zh,ja
+
+    public:
+      apikey: KJe1RPAibe5k1JU8k6iGCmpwEOzWsPtV
+    resource:
+      apigee:
+        lp:
+          api: http://ciapi-user-service:80/lp
+          subscriptions:
+            api: http://ciapi-user-subscription-service:80/lp
+        public:
+          api: http://ciapi-user-service:80/public
+        owner:
+          internal:
+            api: https://test-apimarketplace.west.com/test/internal/SynchOwnerAPIWebService/SynchOwnerAPIWebService/
+
+    #public:
+    #  apikey: KJe1RPAibe5k1JU8k6iGCmpwEOzWsPtV
+    #resource:
+    #  apigee:
+    #    lp:
+    #      api: https://test-apimarketplace.west.com/test/westid-lp-user/v1
+    #      subscriptions:
+    #        api: https://test-apimarketplace.west.com/test/westid-lp-user-subscription/v1
+    #    public:
+    #      api: https://test-apimarketplace.west.com/test/westid-public-api/v1
+    #    owner:
+    #      internal:
+    #        api: https://test-apimarketplace.west.com/test/internal/SynchOwnerAPIWebService/SynchOwnerAPIWebService/
+
+    resource-service:
+      password: Testing1
+      um:
+        read:
+          timeout: 20000
+        request:
+          timeout: 20000
+      read:
+        timeout: 500000
+      request:
+        timeout: 500000
+      username: Test
+    security:
+      oauth2:
+        client:
+          accessTokenUri: https://cidm-qa.uccenter.com/oauth2/token
+          authorized-grant-types: code
+          clientAuthenticationScheme: form
+          clientId: gNf_c7ZhGF3KRvumft9EeQ8venwa
+          clientSecret: NDRO5gI0rK13EmBImf30zrIjavQa
+          grant-type: authorization_code
+          scope: openid
+          userAuthorizationUri: https://cidm-qa.uccenter.com/oauth2/authorize
+        resource:
+          jwt:
+            keyValue: |
+              -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQ
+              WwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9ii
+              jpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE
+              0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQm
+              dc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNK
+              mAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9
+              fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB
+              -----END PUBLIC KEY-----
+
+    server:
+      error:
+        path: /error.htm
+        whitelabel:
+          enabled: false
+      tomcat:
+        uri-encoding: UTF-8
+      servlet:
+        context-path: /
+        session:
+          tracking-modes: cookie
+          timeout: 45m
+    social:
+      security:
+        oauth2:
+          client:
+            accessTokenUri: https://cidm-qa.uccenter.com/oauth2/token
+            authorized-grant-types: code
+            clientAuthenticationScheme: form
+            clientId: tFCIUEueeAmraXiUq5ouvXh50GYa
+            clientSecret: ZKXw17IcG4_X1k0L2aOpglVn2uYa
+            grant-type: authorization_code
+            redirectUri: /oauth2smap.action
+            scope: openid
+            userAuthorizationUri: https://cidm-qa.uccenter.com/oauth2/authorize
+          resource:
+            jwt:
+              keyValue: |
+                -----BEGIN PUBLIC KEY-----
+                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQ
+                WwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9ii
+                jpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE
+                0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQm
+                dc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNK
+                mAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9
+                fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB
+                -----END PUBLIC KEY-----
+    spring:
+      aop:
+        proxy-target-class: true
+      application:
+        name: ci-launchpad
+      cloud:
+        bus:
+          enabled: true
+          trace:
+            enabled: true
+      http:
+        encoding:
+          charset: UTF-8
+      locale:
+        cookie:
+          name: my-locale-cookie
+      messages:
+        encoding: UTF-8
+      mvc:
+        favicon:
+          enabled: false
+      profiles:
+        active: default
+      servlet:
+        multipart:
+          enabled: true
+
+    httpclient:
+      max-total-connections: 1000
+      max-route-connections: 200
+      default-keep-alive-time: 30000
+      idle-connection-wait-time: 30000
+      connect-timeout: 20000
+      request-timeout: 60000
+      socket-timeout: 60000
+
+    pcf.new.env: false
+    apigee.endpoint.env.value: default
+    ---
+    spring:
+      profiles: new-pcf
+    pcf.new.env: true
+    apigee.endpoint.env.value: new-pcf-den
