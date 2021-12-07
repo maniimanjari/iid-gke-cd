@@ -28,17 +28,16 @@ steps:
 - name: 'ubuntu'
   id: 'prepare-build'
   entrypoint: 'bash'
-  #args: ['prepare-build.sh']
   args:
     - '-c'
     - |
-      echo $(ls)
+      echo "current directory *** $(ls $PWD)"
       ./prepare-build.sh
       echo $(ls)
+      echo "execution directory for deployment *** $(ls $PWD/out)"
 
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'out']
-  #args: ['get', 'nodes']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'

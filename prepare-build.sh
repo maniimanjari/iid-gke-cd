@@ -1,7 +1,8 @@
 #!/bin/bash
 mkdir -p out
+echo "current directory *** $(ls $PWD)"
 for i in $(ls -d */); do
-  if [[  $i == ci* ]]; then
+  if [[  $i == ci* || $i == file* ]]; then
     echo $i
       for file in $PWD/${i}/*; do
         echo "$(basename $PWD/${i})-$(basename "$file")"
@@ -9,4 +10,4 @@ for i in $(ls -d */); do
       done;
   fi
 done
-echo $(ls $PWD/out)
+echo "execution directory for deployment *** $(ls $PWD/out)"
