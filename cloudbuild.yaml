@@ -4,9 +4,9 @@ steps:
   id: 'push-configs'
   args: ['get', 'nodes']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
   waitFor:
     - '-'
 #- name: 'ubuntu'
