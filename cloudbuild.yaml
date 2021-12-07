@@ -2,9 +2,9 @@ steps:
 #west Cluster
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
-  args: ['get', 'nodes']
+  args: ['--insecure-skip-tls-verify','get', 'nodes']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
+    - 'CLOUDSDK_CORE_PROJECT=$PROJECT'
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
   waitFor:
@@ -19,7 +19,7 @@ steps:
 #  id: 'push-configs'
 #  args: ['apply', '-f', 'config']
 #  env:
-#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 #  waitFor:
@@ -29,7 +29,7 @@ steps:
 #  id: 'push-apis'
 #  args: ['apply', '-f', 'stage-apis']
 #  env:
-#  - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#  - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
 #  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 #  waitFor:
@@ -40,7 +40,7 @@ steps:
 #  id: 'push-portals'
 #  args: ['apply', '-f', 'stage-portals']
 #  env:
-#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 #  waitFor:
@@ -52,7 +52,7 @@ steps:
 #  id: 'push-ingress-west'
 #  args: ['apply', '-f', 'ingress-west']
 #  env:
-#    - 'PROJECT_NAME=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 #  waitFor:
