@@ -5,7 +5,7 @@ steps:
   args: ['get', 'nodes']
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
   waitFor:
     - '-'
