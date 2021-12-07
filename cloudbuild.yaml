@@ -33,9 +33,9 @@ steps:
     - '-c'
     - |
       echo $(ls)
-      echo $(PWD)
-      chmod 7777 $(PWD)/prepare-build.sh
-      $(PWD)/prepare-build.sh
+      prepare-build.sh
+      echo $(ls)
+
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'out']
   #args: ['get', 'nodes']
