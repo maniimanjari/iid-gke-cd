@@ -2,7 +2,7 @@ steps:
 #west Cluster
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
-  args: ['apply', '-f', 'config']
+  args: ['get', 'nodes']
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
