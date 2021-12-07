@@ -27,14 +27,15 @@ steps:
 #west
 - name: 'ubuntu'
   id: 'prepare-build'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      echo "current directory *** $(ls $PWD)"
-      ./prepare-build.sh
-      echo $(ls)
-      echo "execution directory for deployment *** $(ls $PWD/out)"
+  args: ['bash', './prepare-build.sh']
+  #entrypoint: 'bash'
+  #args:
+  #  - '-c'
+  #  - |
+  #    echo "***** current directory *** $(ls $PWD)"
+  #    ./prepare-build.sh
+  #    echo $(ls)
+  #    echo "***** staging directory for deployment *** $(ls $PWD/out)"
 
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'out']

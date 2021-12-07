@@ -10,4 +10,4 @@ for i in $(ls -d */); do
       done;
   fi
 done
-echo "execution directory for deployment *** $(ls $PWD/out)"
+echo "Execution directory for deployment *** $(ls $PWD/out)"
