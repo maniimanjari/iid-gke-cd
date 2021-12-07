@@ -25,12 +25,19 @@ steps:
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=cc-bo-portals-devtest-01-gke'
 
 #west
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'prepare-build'
+  entrypoint: 'sh'
+  args: ['./prepare-build.sh']
+
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'filebeat']
+  args: ['apply', '-f', 'out']
   #args: ['get', 'nodes']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+  waitFor:
+    - 'prepare-build'
 timeout: 400s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
