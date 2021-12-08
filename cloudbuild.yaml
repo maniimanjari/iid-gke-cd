@@ -1,39 +1,39 @@
 steps:
 #west Cluster
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-filebeat'
-#  args: ['apply', '-f', 'filebeat','--insecure-skip-tls-verify=true']
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-filebeat'
+  args: ['apply', '-f', 'filebeat']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+  waitFor:
+    - '-'
+
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  entrypoint: 'bash'
+#  args:
+#    - '-c'
+#    - |
+#      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
+#      rm -rf ~/.kube/config
+#      gcloud config get-value project
+#      gcloud container clusters list
+#      gcloud components install kubectl
+#      apt-get install kubectl
+#      gcloud config set project cc-bo-portals-devtest-02
+#      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
+#      gcloud config get-value project
+#      gcloud config set project cc-bo-portals-devtest-02
+#      kubectl --insecure-skip-tls-verify=true get nodes
+#      gcloud config set project cc-bo-portals-devtest-02
+#      kubectl --insecure-skip-tls-verify=true get all
+#      gcloud container clusters list
+#      cat ~/.kube/config
 #  env:
 #    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-#  waitFor:
-#    - '-'
-
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
-      rm -rf ~/.kube/config
-      gcloud config get-value project
-      gcloud container clusters list
-      gcloud components install kubectl
-      apt-get install kubectl
-      gcloud config set project cc-bo-portals-devtest-02
-      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
-      gcloud config get-value project
-      gcloud config set project cc-bo-portals-devtest-02
-      kubectl --insecure-skip-tls-verify=true get nodes
-      gcloud config set project cc-bo-portals-devtest-02
-      kubectl --insecure-skip-tls-verify=true get all
-      gcloud container clusters list
-      cat ~/.kube/config
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
 #- name: 'ubuntu'
 #  id: 'prepare-build'
 #  args: ['bash', './prepare-build.sh']
