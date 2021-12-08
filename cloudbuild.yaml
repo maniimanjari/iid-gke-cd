@@ -15,12 +15,12 @@ steps:
   args:
     - '-c'
     - |
-      #gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
-      #gcloud config get-value project
+      gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      gcloud config get-value project
       gcloud components install kubectl
       gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
-      cat ~/.kube/config
-      kubectl get nodes
+      #cat ~/.kube/config
+      kubectl --insecure-skip-tls-verify=true get nodes
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
     - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
