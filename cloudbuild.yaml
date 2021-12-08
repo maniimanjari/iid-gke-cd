@@ -19,6 +19,7 @@ steps:
       gcloud config get-value project
       gcloud components install kubectl
       apt-get install kubectl
+      gcloud config set project cc-bo-portals-prod-01
       gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
       gcloud config get-value project
       gcloud config set project cc-bo-portals-prod-01
@@ -30,11 +31,11 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
     - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
     - 'CLOUDSDK_CONTAINER_CLUSTER=prod-us-central1-cluster-1'
-- name: 'ubuntu'
-  id: 'prepare-build'
-  args: ['bash', './prepare-build.sh']
-  waitFor:
-    - '-'
+#- name: 'ubuntu'
+#  id: 'prepare-build'
+#  args: ['bash', './prepare-build.sh']
+#  waitFor:
+#    - '-'
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-configs'
