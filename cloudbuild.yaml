@@ -15,9 +15,10 @@ steps:
   args:
     - '-c'
     - |
-      gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
-      gcloud config get-value project
+      #gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      #gcloud config get-value project
       gcloud components install kubectl
+      gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
       cat ~/.kube/config
       kubectl get nodes
   env:
