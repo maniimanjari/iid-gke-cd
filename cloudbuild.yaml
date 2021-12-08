@@ -6,7 +6,7 @@ steps:
 #  env:
 #    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=prod-us-central1-cluster-1'
 #  waitFor:
 #    - '-'
 
@@ -15,16 +15,16 @@ steps:
   args:
     - '-c'
     - |
-      gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
       gcloud config get-value project
       gcloud components install kubectl
-      gcloud container clusters get-credentials us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
       #cat ~/.kube/config
       kubectl --insecure-skip-tls-verify=true get nodes
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
     - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=prod-us-central1-cluster-1'
 #- name: 'ubuntu'
 #  id: 'prepare-build'
 #  args: ['bash', './prepare-build.sh']
