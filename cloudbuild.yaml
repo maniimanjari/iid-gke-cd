@@ -1,14 +1,14 @@
 steps:
 #west Cluster
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-filebeat'
-  args: ['apply', '-f', 'filebeat','--insecure-skip-tls-verify=true']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-  waitFor:
-    - '-'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-filebeat'
+#  args: ['apply', '-f', 'filebeat','--insecure-skip-tls-verify=true']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+#  waitFor:
+#    - '-'
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
@@ -16,6 +16,7 @@ steps:
     - '-c'
     - |
       gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      rm -rf ~/.kube/config
       gcloud config get-value project
       gcloud components install kubectl
       apt-get install kubectl
@@ -29,7 +30,7 @@ steps:
       cat ~/.kube/config
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=prod-us-central1-cluster-1'
 #- name: 'ubuntu'
 #  id: 'prepare-build'
