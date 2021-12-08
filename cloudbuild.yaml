@@ -15,18 +15,18 @@ steps:
   args:
     - '-c'
     - |
-      gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
       rm -rf ~/.kube/config
       gcloud config get-value project
       gcloud container clusters list
       gcloud components install kubectl
       apt-get install kubectl
-      gcloud config set project cc-bo-portals-prod-01
-      gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
+      gcloud config set project cc-bo-portals-devtest-02
+      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
       gcloud config get-value project
-      gcloud config set project cc-bo-portals-prod-01
+      gcloud config set project cc-bo-portals-devtest-02
       kubectl --insecure-skip-tls-verify=true get nodes
-      gcloud config set project cc-bo-portals-prod-01
+      gcloud config set project cc-bo-portals-devtest-02
       kubectl --insecure-skip-tls-verify=true get all
       gcloud container clusters list
       cat ~/.kube/config
