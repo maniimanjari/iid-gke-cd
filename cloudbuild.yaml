@@ -18,6 +18,7 @@ steps:
       gcloud container clusters get-credentials prod-us-central1-cluster-1 --region us-central1 --project cc-bo-portals-prod-01
       rm -rf ~/.kube/config
       gcloud config get-value project
+      gcloud container clusters list
       gcloud components install kubectl
       apt-get install kubectl
       gcloud config set project cc-bo-portals-prod-01
@@ -27,6 +28,7 @@ steps:
       kubectl --insecure-skip-tls-verify=true get nodes
       gcloud config set project cc-bo-portals-prod-01
       kubectl --insecure-skip-tls-verify=true get all
+      gcloud container clusters list
       cat ~/.kube/config
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-prod-01'
