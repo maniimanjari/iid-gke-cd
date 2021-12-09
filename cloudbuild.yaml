@@ -69,41 +69,41 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['prepare-build']
 
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-configs'
-#  args: ['apply', '-f', 'config']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['create-name-space']
-#
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-apis'
-#  args: ['apply', '-f', 'stage-apis']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['create-name-space','prepare-build']
-#
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-portals'
-#  args: ['apply', '-f', 'stage-portals']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
-#
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-ingress-west'
-#  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-configs'
+  args: ['apply', '-f', 'config']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['create-name-space']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-apis'
+  args: ['apply', '-f', 'stage-apis']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['create-name-space','prepare-build']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-portals'
+  args: ['apply', '-f', 'stage-portals']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-ingress-west'
+  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
 
 timeout: 600s
 options:
