@@ -1,14 +1,14 @@
 steps:
 #west Cluster
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-filebeat'
-  args: ['apply', '-f', 'filebeat']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
-  waitFor:
-    - '-'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-filebeat'
+#  args: ['apply', '-f', 'filebeat']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
+#  waitFor:
+#    - '-'
 
 #- name: 'gcr.io/cloud-builders/gcloud'
 #  entrypoint: 'bash'
@@ -34,12 +34,23 @@ steps:
 #    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-configs'
+  args: ['apply', '-f', 'filebeat']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
+  waitFor:
+    - '-'
+
 #- name: 'ubuntu'
 #  id: 'prepare-build'
 #  args: ['bash', './prepare-build.sh']
 #  waitFor:
 #    - '-'
-
+#
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-configs'
 #  args: ['apply', '-f', 'config']
