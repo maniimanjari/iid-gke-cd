@@ -61,13 +61,13 @@ steps:
     - '-'
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  id: 'prepare-build'
+  id: 'create-name-space'
   args: ['apply', '-f', 'push-name-space']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['create-name-space']
+  waitFor: ['prepare-build']
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-configs'
