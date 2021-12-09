@@ -2,6 +2,7 @@
 mkdir -p stage-apis
 mkdir -p stage-portals
 echo "current directory *** $(ls $PWD)"
+export $(cat ./qa.env | egrep -v "(^#.*|^$)" | xargs)
 for i in $(ls -d */); do
   if [[  $i == ci-* || $i == file* || $i == ciapi-* ]]; then
     echo $i
