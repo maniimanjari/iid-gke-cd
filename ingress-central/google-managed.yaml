@@ -32,6 +32,7 @@ spec:
     - crm-portal.iid-qa.uccenter.com
     - launchpad.iid-qa.uccenter.com
     - rna.iid-qa.uccenter.com
+    - dps-db-alert-monitor.iid-qa.uccenter.com
 #    - ci-email-processor.iid-qa.uccenter.com
 #    - ci-email-reprocessor.iid-qa.uccenter.com
 #    - ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com

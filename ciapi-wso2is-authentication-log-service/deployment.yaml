@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: iid-qa
+  namespace: default
   name: ciapi-wso2is-authentication-log-service
   creationTimestamp: null
   labels:

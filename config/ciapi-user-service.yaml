@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: iid-qa
+  namespace: default
   creationTimestamp: null
   name: ciapi-user-service-qa
   #resourceVersion: "1.0"
