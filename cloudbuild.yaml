@@ -75,7 +75,7 @@ steps:
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['create-name-space']
 
 - name: 'gcr.io/cloud-builders/kubectl'
@@ -84,7 +84,7 @@ steps:
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['create-name-space','prepare-build']
 
 - name: 'gcr.io/cloud-builders/kubectl'
@@ -93,7 +93,7 @@ steps:
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
 
 - name: 'gcr.io/cloud-builders/kubectl'
@@ -102,7 +102,7 @@ steps:
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
 
 timeout: 600s
