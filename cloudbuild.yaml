@@ -45,7 +45,7 @@ steps:
   waitFor:
     - '-'
 - name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-configs'
+  id: 'push-central'
   args: ['apply', '-f', 'filebeat']
   env:
     - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
