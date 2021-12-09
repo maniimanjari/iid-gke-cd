@@ -1,8 +1,8 @@
-apiVersion: networking.gke.io/v1beta1
-kind: FrontendConfig
-metadata:
-  name: iid-frontend-ssl-redirect-config
-spec:
-  redirectToHttps:
-    enabled: true
-    responseCodeName: "301"
+#apiVersion: networking.gke.io/v1beta1
+#kind: FrontendConfig
+#metadata:
+#  name: iid-frontend-ssl-redirect-config
+#spec:
+#  redirectToHttps:
+#    enabled: true
+#    responseCodeName: "301"
