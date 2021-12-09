@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: iid-ingress
-  namespace: default
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "iid-qa-static-ip"
     networking.gke.io/managed-certificates: "iid-managed-cert"
@@ -296,7 +295,7 @@ spec:
           pathType: ImplementationSpecific
           backend:
             service:
-              name: dps-alert-monitor-ui-gke-service
+              name: westid-rna
               port:
                 number: 80
 # temporary  mapping

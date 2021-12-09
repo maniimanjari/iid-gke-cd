@@ -99,7 +99,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-ingress'
-  args: ['delete', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
