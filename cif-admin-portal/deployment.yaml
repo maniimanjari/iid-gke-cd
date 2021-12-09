@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: ${name_space}
+  namespace: iid-qa
   name: cif-admin-portal
   labels:
     app: cif-admin-portal
@@ -28,7 +28,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-Dserver.port=80 -Dspring.application.name=cif-admin-portal -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.app_name=lp-gcp-app -javaagent:/newrelic/newrelic.jar -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.licenseKey=d67210cdd7109fefbfdf3b9739f77e7d53acee76"
             - name: SPRING_PROFILES_ACTIVE
-              value: "${app_profile}"
+              value: "qa,swn01-qa"
             - name: SPRING_APPLICATION_NAME
               value: "cif-admin-portal"
           ports:

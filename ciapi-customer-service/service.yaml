@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: ${name_space}
+  namespace: iid-qa
   name: ciapi-customer-service
   creationTimestamp: null
   labels:

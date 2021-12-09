@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: ${name_space}
+  namespace: iid-qa
   name: ci-search-template-service
   creationTimestamp: null
   labels:

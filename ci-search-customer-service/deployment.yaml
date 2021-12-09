@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: ${name_space}
+  namespace: iid-qa
   name: ci-search-customer-service
   creationTimestamp: null
   labels:
@@ -30,7 +30,7 @@ spec:
               - name: JAVA_TOOL_OPTIONS
                 value: "-Dserver.port=80 -Dspring.application.name=ci-search-customer-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ci-search-customer-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -Dnewrelic.environment=test"
               - name: SPRING_PROFILES_ACTIVE
-                value: "${app_profile}"
+                value: "qa,swn01-qa"
               - name: SPRING_APPLICATION_NAME
                 value: "ci-search-customer-service"
           livenessProbe:
