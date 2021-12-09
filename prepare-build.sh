@@ -2,6 +2,7 @@
 mkdir -p stage-apis
 mkdir -p stage-portals
 mkdir -p push-name-space
+apt-get install envsubst
 echo "current directory *** $(ls $PWD)"
 export $(cat ./qa.env | egrep -v "(^#.*|^$)" | xargs)
 for i in $(ls -d */); do
