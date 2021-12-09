@@ -289,16 +289,16 @@ spec:
               name: westid-rna
               port:
                 number: 80
-#  - host: dps-db-alert-monitor.iid-qa.uccenter.com
-#    http:
-#      paths:
-#        - path: /*
-#          pathType: ImplementationSpecific
-#          backend:
-#            service:
-#              name: dps-alert-monitor-ui-gke-service
-#              port:
-#                number: 80
+  - host: dps-db-alert-monitor.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: dps-alert-monitor-ui-gke-service
+              port:
+                number: 80
 # temporary  mapping
 #  - host: ci-email-processor.iid-qa.uccenter.com
 #    http:
