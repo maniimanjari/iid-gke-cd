@@ -29,4 +29,4 @@ for i in $(ls -d */); do
 done
 echo "Execution directory for apis deployment *** $(ls $PWD/stage-apis)"
 echo "Execution directory for portals deployment *** $(ls $PWD/stage-portals)"
-echo "Execution directory for portals deployment *** $(ls $PWD/push-name-space)"
+echo "Execution directory for name space deployment *** $(ls $PWD/push-name-space)"
