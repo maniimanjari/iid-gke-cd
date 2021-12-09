@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${name_space}
+  name: ciapi-mass-processing
+  creationTimestamp: null
+  labels:
+    app: ciapi-mass-processing
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "ciapi-mass-processing"}'
+spec:
+  ports:
+  - name: ciapi-mass-processing
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ciapi-mass-processing
+  type: ClusterIP

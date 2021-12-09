@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${name_space}
+  name: ciapi-provisioning-service
+  creationTimestamp: null
+  labels:
+    app: ciapi-provisioning-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "ciapi-provisioning-service"}'
+spec:
+  ports:
+  - name: ciapi-provisioning-service
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ciapi-provisioning-service
+  type: ClusterIP

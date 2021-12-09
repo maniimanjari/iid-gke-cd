@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: default
+  namespace: ${name_space}
   name: cif-launchpad
   labels:
     app: cif-launchpad

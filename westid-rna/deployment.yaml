@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: default
+  namespace: ${name_space}
   name: westid-rna
   labels:
     app: westid-rna
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: westid-rna
-          image: gcr.io/cc-bo-portals-devtest-01/westid-rna:latest
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/westid-rna:latest
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS

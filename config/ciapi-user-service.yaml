@@ -1,0 +1,318 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-user-service-qa
+  #resourceVersion: "1.0"
+  #uid: c190a559-2fde-4662-a31f-4d8d39d324fe
+data:
+  application-qa.yml: |
+    ---
+    spring:
+       config:
+          activate:
+             on-profile: qa
+       datasource:
+          username: itcuapi
+          password: itcuapiq
+          driverClassName: org.postgresql.Driver
+          factory: org.apache.tomcat.jdbc.pool.DataSourceFactory
+          tomcat:
+             max-age: 1800000
+             max-wait: 30000
+             max-active: 80
+             initial-size: 20
+             max-idle: 5
+             min-idle: 5
+             time-between-eviction-runs-millis: 30000
+             min-evictable-idle-time-millis: 30000
+             remove-abandoned: true
+             remove-abandoned-timeout: 600
+             log-abandoned: true
+             abandon-when-percentage-full: 0
+             test-on-borrow: true
+             validation-query: select 1
+             validation-interval: 20000
+             test-while-idle: true
+             test-on-connect: true
+             log-validation-errors: true
+             jdbcInterceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+       messages:
+          basename: common-messages,messages,restmessages
+          cache-seconds: -1
+          encoding: UTF-8
+       aop:
+          proxy-target-class: true
+       mvc:
+          async:
+             request-timeout: 90000
+       cloud:
+          gcp:
+            config:
+              project-id: cc-bo-portals-devtest-01
+          services:
+             registrationMethod: route
+          stream:
+             overrideCloudConnectors: false
+             bindings:
+                output:
+                   destination: ciapi-external-email
+                   content-type: application/json
+                   producer:
+                      requiredGroups: email
+                input:
+                   destination: ciapi-internal-email
+                   content-type: application/json
+                   producer:
+                      requiredGroups: email
+             #binders:
+             #   rabbit-ciapi:
+             #      type: rabbit
+             #      environment:
+             #         spring:
+             #            rabbitmq:
+             #               cache:
+             #                  channel:
+             #                     checkout-timeout: 90000
+             #                     size: 10
+             #               connection-timeout: 0
+             #               requested-heartbeat: 30
+       rabbitmq:
+          ssl:
+             verify-hostname: false
+       security:
+          user:
+             name: ciusapi
+             password: x3iY9P&*8%zK
+             roles: CIAPIUSER,APP_CLIENT,ISUSER
+       http:
+          encoding:
+             force: true
+    twilio:
+      service:
+        enabled: false
+      api:
+        accountSid: AC3e89160e70a9d54f630b138fc0534a17
+        authToken: 4c976a058361049484840a203fd8f775
+        serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+        connection-timeout: 5000
+        socket-timeout: 10000
+    management:
+       context-path: /management/ciapi/users
+       security:
+          enabled: false
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/users
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+             show-details: always
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+             mask:
+                enabled: true
+    endpoints:
+       health:
+          sensitive: false
+    #eureka:
+    #   instance:
+    #      hostname: ${app_registry_uri}
+    #      instanceId: ${app_registry_uri}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    #      status-page-url-path: /management/ciapi/users/info
+    #      health-check-url-path: /management/ciapi/users/health
+    #   client:
+    #      healthcheck:
+    #         enabled: true
+    #      heartbeat-executor-thread-pool-size: 20
+    #      cache-refresh-executor-thread-pool-size: 20
+    #      eureka-server-total-connections-per-host: 100
+    #      eureka-server-connect-timeout-seconds: 15
+    #      eureka-server-read-timeout-seconds: 20
+    ciapi:
+       topic-name: ciapi-internal-email
+       database:
+          schema: ciapi_qa
+       spEntityID: 'https://cidm-qa.uccenter.com/fed/sp'
+       default-timezone: UTC
+       security:
+          oauth2:
+             uri:
+                antpattern: /aceapi/users/**,/users/**,/lp/users/**,/customers/**,/public/users/**,/public/email/**,/public/configuration/**,/public/subscriptions/**,/public/users/countryPhoneCodes/**
+          basic:
+             uri:
+                antpattern: /de/users/**,/is/users/**,/aceapi/users/**,/users/**,/management/ciapi/users/env,/public/users/hoothome/**,/public/users/iid/**
+             roles: CIAPIUSER,APP_CLIENT,ISUSER,MASSPROVISIONING,UMX_CLIENT,IOL_CLIENT,ICRM_CLIENT
+             users:
+                -
+                   username: ciusapi
+                   password: x3iY9P&*8%zK
+                   roles: CIAPIUSER,APP_CLIENT
+                -
+                   username: wso24ciapi
+                   password: ws021sC1ap1!
+                   roles: ISUSER,APP_CLIENT
+                -
+                   username: cimassapi
+                   password: Q3d&8*B~Y*5$
+                   roles: CIAPIUSER,MASSPROVISIONING,APP_CLIENT
+                   authorities: USER_TERMINATE,USER_DELETE,USER_GET,USER_ADD,USER_UPDATE,USER_ACTIVATE,USER_DISABLE,USER_ENABLE,USER_REGISTRATION_URL_GET,USER_USERNAME_UPDATE,USER_PASSWORD_UPDATE
+                -
+                   username: umxciapi
+                   password: Nxhjv#Juj3!EG
+                   roles: UMX_CLIENT
+                -
+                   username: iolciapi
+                   password: QxWjR!Juj3#eG
+                   roles: IOL_CLIENT
+                -
+                   username: icrmciapi
+                   password: Wxljv!Juj2YEI
+                   roles: ICRM_CLIENT
+       jwt:
+          key:
+             file: wso2carbon-test.cert
+       user:
+          regemail:
+             processors-check-customer-hold-count: 100
+             processors-min-chunk-size: 100
+             processors-max-threads-count: 20
+             max-pools-count: 10
+       user-executor-core-pool-size: 20
+       user-executor-max-pool-size: 50
+       user-executor-queue-capacity: 40
+    ciapi-user-default-language-iso-code: en-US
+    httpclient:
+       max-total-connections: 1000
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+    nr:
+       insights:
+          enabled: true
+          date:
+             format: MM/dd/yyyy hh:mm aa z
+    security:
+       basic:
+          enabled: true
+       user:
+          name: manager
+          password: 'M@nA63r!'
+    is-application-service:
+       host: ciapi-application-service
+       port: 80
+       url: /is/
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    is-customer-service:
+       host: ciapi-customer-service
+       port: 80
+       url: /is/
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    is-customer-subscription-service:
+       host: ciapi-customer-subscription-service
+       port: 80
+       url: /is/
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    user-subscription-service:
+       host: ciapi-user-subscription-service
+       port: 80
+       url: /
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+    wso2is-api-service:
+       host: cidm-qa.uccenter.com
+       url: api/west/ci/v0.1
+       username: ciapiuser
+       password: Testing1
+    ace-event-service:
+       host: ciapi-aceapi-integration
+       port: 80
+       url: /
+       username: aceapi
+       password: aceapi123!
+       protocol: http
+    swagger:
+       title: User API for Admin Portal, LP, WSO2 and Public
+       description: This API provides the services needed to operate on CI Users
+       version: 1.0
+       contact:
+          name: West Unified Communications
+          email: ciapi.support@west.com
+       path:
+          selector: /aceapi/users.*,/users.*,/customers.*,/lp/users.*,/public/users.*,/public/email.*,/public/configuration.*,/is/users.*,/de/users.*
+    server:
+       servlet:
+          encoding:
+             force: true
+    health:
+       config:
+          enabled: false
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: DEBUG
+          org.springframework: DEBUG
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+          org.springframework.boot.autoconfigure: ERROR
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: ERROR
+          org.springframework.boot.autoconfigure.security: ERROR
+          org.springframework.security : ERROR
+          org.springframework.jdbc: DEBUG
+          org.springframework.amqp.rabbit.listener.BlockingQueueConsumer: ERROR
+          com.netflix.eureka: DEBUG
+          com.netflix.discovery: DEBUG
+          com.rabbitmq.client: ERROR
+          com.newrelic: INFO
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|CIAPI-USER-SERVICE|****'
+    hoot:
+       home:
+          retail:
+             url: https://my.qa.hootmeeting.com
+          wholesale:
+             url: https://my.qa.umx.conferencing.com
+    owner-service:
+       url: https://test-apimarketplace.west.com/test/internal/SynchOwnerAPIWebService/SynchOwnerAPIWebService
+    company-service:
+       url: https://test-apimarketplace.west.com/test/internal/CompanyWebService/CompanyWebService
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: den06-qa | gcp-den06-qa
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: swn01-qa | gcp-swn01-qa

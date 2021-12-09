@@ -1,0 +1,283 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-provisioning-service-qa
+  #resourceVersion: "1.0"
+  #uid: f6fbeddf-7555-49d9-ad83-204516ca2c75
+data:
+  application-qa.yml: |
+    ---
+    spring:
+       config:
+          activate:
+             on-profile: qa
+       datasource:
+          username: itcuapi
+          password: itcuapiq
+          driverClassName: org.postgresql.Driver
+          factory: org.apache.tomcat.jdbc.pool.DataSourceFactory
+          tomcat:
+             max-age: 1800000
+             max-wait: 30000
+             max-active: 4
+             initial-size: 1
+             max-idle: 1
+             min-idle: 1
+             time-between-eviction-runs-millis: 30000
+             min-evictable-idle-time-millis: 30000
+             remove-abandoned: true
+             remove-abandoned-timeout: 600
+             log-abandoned: true
+             abandon-when-percentage-full: 0
+             test-on-borrow: true
+             validation-query: select 1
+             validation-interval: 20000
+             test-while-idle: true
+             test-on-connect: true
+             log-validation-errors: true
+             jdbcInterceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+       messages:
+          basename: common-messages,messages
+          cache-seconds: -1
+          encoding: UTF-8
+       aop:
+          proxy-target-class: true
+       mvc:
+          async:
+             request-timeout: 90000
+       cloud:
+        #gcp:
+        #  config:
+        #    project-id: cc-bo-portals-devtest-01
+          services:
+             registrationMethod: route
+          #stream:
+          #   overrideCloudConnectors: false
+          #   bindings:
+          #      externalEmail:
+          #         destination: ciapi-external-email
+          #         content-type: application/json
+          #         producer:
+          #            requiredGroups: email
+          #      output:
+          #         destination: ciapi-internal-email
+          #         content-type: application/json
+          #         producer:
+          #            requiredGroups: email
+             #binders:
+             #   rabbit-ciapi:
+             #      type: rabbit
+             #      environment:
+             #         spring:
+             #            rabbitmq:
+             #               cache:
+             #                  channel:
+             #                     checkout-timeout: 90000
+             #                     size: 10
+             #               connection-timeout: 0
+             #               requested-heartbeat: 30
+       rabbitmq:
+          ssl:
+             verify-hostname: false
+       security:
+          user:
+             name: ciusapi
+             password: x3iY9P&*8%zK
+             roles: CIAPIUSER,APP_CLIENT,ISUSER
+       http:
+          encoding:
+             force: true
+    twilio:
+      service:
+        enabled: false
+      api:
+        accountSid: AC3e89160e70a9d54f630b138fc0534a17
+        authToken: 4c976a058361049484840a203fd8f775
+        serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+    management:
+       context-path: /management/ciapi/provisioning/
+       security:
+          enabled: false
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/provisioning/
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+             show-details: always
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+             mask:
+                enabled: true
+    endpoints:
+       health:
+          sensitive: false
+    #eureka:
+    #   instance:
+    #      hostname: ${app_registry_uri}
+    #      instanceId: ${app_registry_uri}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    #      status-page-url-path: /management/ciapi/provisioning/info
+    #      health-check-url-path: /management/ciapi/provisioning/health
+    #   client:
+    #      healthcheck:
+    #         enabled: true
+    #      heartbeat-executor-thread-pool-size: 20
+    #      cache-refresh-executor-thread-pool-size: 20
+    #      eureka-server-total-connections-per-host: 100
+    #      eureka-server-connect-timeout-seconds: 15
+    #      eureka-server-read-timeout-seconds: 20
+    ciapi:
+       customer:
+          provisioning:
+             op:
+                createExecutorSize: 4
+                corePoolSize: 3
+                executorMaxPoolSize: 6
+                executorQueueSize: 6
+       database:
+          schema: ciapi_qa
+       default-timezone: UTC
+       security:
+          oauth2:
+             uri:
+                antpattern: /provisioning/**,/int/provisioning/**
+          basic:
+             uri:
+                antpattern: /management/ciapi/provisioning/users/env
+             roles: CIAPIUSER,APP_CLIENT
+             users:
+                -
+                   username: ciusapi
+                   password: x3iY9P&*8%zK
+                   roles: CIAPIUSER,APP_CLIENT
+       jwt:
+          key:
+             file: wso2carbon-test.cert
+       user:
+          regemail:
+             processors-check-customer-hold-count: 100
+             processors-min-chunk-size: 100
+             processors-max-threads-count: 20
+             max-pools-count: 10
+       user-executor-core-pool-size: 20
+       user-executor-max-pool-size: 50
+       user-executor-queue-capacity: 40
+    ciapi-user-default-language-iso-code: en-US
+    httpclient:
+       max-total-connections: 1000
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+    nr:
+       insights:
+          enabled: true
+          date:
+             format: MM/dd/yyyy hh:mm aa z
+    provisioning:
+       allowed:
+          customers: ALL
+    security:
+       basic:
+          enabled: true
+       user:
+          name: ciusapi
+          password: x3iY9P&*8%zK
+          role: APP_CLIENT
+    #need to connect to interanla service
+    customer-service:
+       host: ciapi-customer-service
+       port: 80
+       url: /
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    customer-subscription-service:
+       host: ciapi-customer-subscription-service
+       port: 80
+       url: /
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    user-service:
+       host: ciapi-user-service
+       port: 80
+       url: /
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+    user-subscription-service:
+       host: ciapi-user-subscription-service
+       port: 80
+       url: /
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+    swagger:
+       title: Provisioning API
+       description: This API provides the operations needed to provision CI Users and Customer Subscriptions
+       version: 1.0
+       contact:
+          name: West Unified Communications
+          email: ciapi.support@west.com
+       path:
+          selector: /provisioning.*,/int/provisioning.*
+    server:
+       servlet:
+          encoding:
+             force: true
+    health:
+       config:
+          enabled: false
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: DEBUG
+          org.springframework: DEBUG
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+          org.springframework.boot.autoconfigure: ERROR
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: ERROR
+          org.springframework.boot.autoconfigure.security: ERROR
+          org.springframework.security : ERROR
+          org.springframework.jdbc: DEBUG
+          org.springframework.amqp.rabbit.listener.BlockingQueueConsumer: ERROR
+          com.netflix.eureka: DEBUG
+          com.netflix.discovery: DEBUG
+          com.rabbitmq.client: ERROR
+          com.newrelic: INFO
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|CIAPI-PROVISIONING-SERVICE|****'
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: den06-qa | gcp-den06-qa
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: swn01-qa | gcp-swn01-qa

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: ${name_space}
   creationTimestamp: null
   name: cif-launchpad-qa
   #resourceVersion: "1.0"

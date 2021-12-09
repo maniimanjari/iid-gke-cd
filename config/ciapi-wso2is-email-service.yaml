@@ -1,0 +1,182 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-wso2is-email-service-qa
+  #resourceVersion: "1.0"
+  #uid: f6fbeddf-7555-49d9-ad83-204516ca2c75
+data:
+  application-qa.yml: |
+    ---
+    spring:
+       config:
+          activate:
+             on-profile: qa
+       messages:
+          basename: common-messages,messages
+          cache-duration: -1
+          encoding: UTF-8
+       http:
+          encoding:
+             force:
+       aop:
+          proxy-target-class: true
+       mvc:
+          async:
+             request-timeout: 90000
+       cloud:
+          gcp:
+            config:
+              project-id: cc-bo-portals-devtest-01
+          services:
+             registrationMethod: route
+          stream:
+             overrideCloudConnectors: false
+             bindings:
+                output:
+                   destination: ciapi-external-email
+                   content-type: application/json
+                   producer:
+                      requiredGroups: email
+             #binders:
+             #   rabbit-ciapi:
+             #      type: rabbit
+             #      environment:
+             #         spring:
+             #            rabbitmq:
+             #               cache:
+             #                  channel:
+             #                     checkout-timeout: 9000
+             #                     size: 10
+             #               connection-timeout: 0
+             #               requested-heartbeat: 30
+       rabbitmq:
+          ssl:
+             verify-hostname: false
+    ciapi:
+       topic-name: ciapi-external-email
+       security:
+          basic:
+             uri:
+                antpattern: /is/email/**
+             roles: ISUSER
+             users:
+                -
+                   username: wso24ciapi
+                   password: ws021sC1ap1!
+                   roles: ISUSER
+    security:
+       basic:
+          enabled: false
+       user:
+          name: wso24ciapi
+          password: ws021sC1ap1!
+    twilio:
+      service:
+        enabled: false
+      api:
+        accountSid: AC3e89160e70a9d54f630b138fc0534a17
+        authToken: 4c976a058361049484840a203fd8f775
+        serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+        connection-timeout: 5000
+        socket-timeout: 10000
+    management:
+       security:
+          role: APP_CLIENT
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/is-email/
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+             show-details: always
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+    #eureka:
+    #   instance:
+    #      hostname: ${app_registry_uri}
+    #      instanceId: ${app_registry_uri}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    #      status-page-url-path: /management/ciapi/is-email/info
+    #      health-check-url-path: /management/ciapi/is-email/health
+    #   client:
+    #      healthcheck:
+    #         enabled: true
+    #      heartbeat-executor-thread-pool-size: 20
+    #      cache-refresh-executor-thread-pool-size: 20
+    #      eureka-server-total-connections-per-host: 100
+    #      eureka-server-connect-timeout-seconds: 15
+    #      eureka-server-read-timeout-seconds: 20
+    httpclient:
+       max-total-connections: 1000
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+    swagger:
+       title: WSO2 Email API for IS Integration
+       description: This API provides the services needed for WSO2 Identity Server to operate on password reset emails
+       version: 1.0
+       contact:
+          name: West Unified Communications
+          email: ciapi.support@west.com
+       path:
+          selector: /is/email/**
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: DEBUG
+          org.springframework: DEBUG
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+          org.springframework.boot.autoconfigure: ERROR
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: ERROR
+          org.springframework.boot.autoconfigure.security: ERROR
+          org.springframework.security : ERROR
+          org.springframework.jdbc: DEBUG
+          org.springframework.amqp.rabbit.listener.BlockingQueueConsumer: ERROR
+          com.netflix.eureka: DEBUG
+          com.netflix.discovery: DEBUG
+          com.rabbitmq.client: ERROR
+          com.westuc.ciapi: DEBUG
+          com.informix: DEBUG
+          com.newrelic: INFO
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|CIAPI-WSO2IS-EMAIL-SERVICE|****'
+    is-customer-service:
+       host: ciapi-customer-service
+       port: 80
+       url: /is/
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    is-user-service:
+       host: ciapi-user-service
+       port: 80
+       url: /is/
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+    server:
+       error:
+          include-message: always
+    health:
+       config:
+          enabled: false

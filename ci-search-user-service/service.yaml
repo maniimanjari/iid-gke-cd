@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${name_space}
+  name: ci-search-user-service
+  creationTimestamp: null
+  labels:
+    app: ci-search-user-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "ci-search-user-service"}'
+spec:
+  ports:
+  - name: ci-search-user-service
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ci-search-user-service
+  type: ClusterIP

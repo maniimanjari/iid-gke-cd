@@ -35,77 +35,86 @@ steps:
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-filebeat-west'
-  args: ['apply', '-f', 'filebeat']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-  waitFor:
-    - '-'
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-filebeat-central'
-  args: ['apply', '-f', 'filebeat']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
-  waitFor:
-    - 'push-filebeat-west'
-#- name: 'ubuntu'
-#  id: 'prepare-build'
-#  args: ['bash', './prepare-build.sh']
-#  waitFor:
-#    - '-'
-#
 #- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-configs'
-#  args: ['apply', '-f', 'config']
+#  id: 'push-filebeat-west'
+#  args: ['apply', '-f', 'filebeat']
 #  env:
 #    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
 #    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
 #  waitFor:
 #    - '-'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-filebeat-central'
+#  args: ['apply', '-f', 'filebeat']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
+#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
+#  waitFor:
+#    - 'push-filebeat-west'
+
+- name: 'ubuntu'
+  id: 'prepare-build'
+  args: ['bash', './prepare-build.sh']
+  waitFor:
+    - '-'
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'create-name-space'
+  args: ['apply', '-f', 'push-name-space']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor:
+    - '-'
+
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-configs'
+#  args: ['apply', '-f', 'config']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['create-name-space']
 #
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-apis'
 #  args: ['apply', '-f', 'stage-apis']
 #  env:
-#  - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-#  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#  - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-#  waitFor:
-#    - 'prepare-build'
-#    - 'push-configs'
+#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['create-name-space','prepare-build']
 #
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-portals'
 #  args: ['apply', '-f', 'stage-portals']
 #  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-#  waitFor:
-#    - 'prepare-build'
-#    - 'push-configs'
-#    - 'push-apis'
+#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
 #
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-ingress-west'
-#  args: ['apply', '-f', 'ingress-west']
+#  args: ['apply', '-f', '${CLOUDSDK_CONTAINER_INGRESS}']
 #  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-#  waitFor:
-#    - 'prepare-build'
-#    - 'push-configs'
-#    - 'push-apis'
-#    - 'push-portals'
+#    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
 
 timeout: 600s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
+substitutions:
+  CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  CLOUDSDK_COMPUTE_ZONE: 'us-central1-a'
+  CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #CLOUDSDK_COMPUTE_ZONE: 'us-west1-a'
+  #CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  #CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'

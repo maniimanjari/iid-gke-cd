@@ -1,0 +1,193 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   namespace: ${name_space}
+   creationTimestamp: null
+   name: ciapi-aceapi-integration-qa
+   #resourceVersion: "1.0"
+   #uid: 28cb6c58-e2ac-4545-879b-04188527476b
+data:
+   application-qa.yml: |
+     ---
+     spring:
+        config:
+           activate:
+              on-profile: qa
+        messages:
+           basename: common-messages,messages
+           cache-seconds: -1
+           encoding: UTF-8
+        aop:
+           proxy-target-class: true
+        mvc:
+           async:
+              request-timeout: 90000
+        cloud:
+           services:
+              registrationMethod: route
+        security:
+           user:
+              name: aceapi
+              password: aceapi123!
+        http:
+           encoding:
+              force: true
+     aceapi:
+        interval-delay: 1
+        db-retries: 3
+        db-retry-interval-mins: 1
+        num-of-tokens: 1
+        num-of-low-tokens: 5
+        datasource:
+           username: oapig
+           password: gipao
+           platform: informix
+           driverClassName: com.informix.jdbc.IfxDriver
+           max-age: 1800000
+           max-wait: 30000
+           max-active: 60
+           initial-size: 10
+           max-idle: 10
+           min-idle: 10
+           time-between-eviction-runs-millis: 30000
+           min-evictable-idle-time-millis: 30000
+           remove-abandoned: true
+           remove-abandoned-timeout: 180
+           log-abandoned: true
+           abandon-when-percentage-full: 0
+           validation-query: 'select count(*) from systables'
+           validation-interval: 30000
+           test-while-idle: true
+           test-on-connect: true
+           test-on-borrow: true
+           log-validation-errors: true
+           jdbcInterceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+     management:
+        endpoints:
+           enabled-by-default: false
+           web:
+              exposure:
+                 include: '*'
+              base-path: /management/ciapi/aceapiintegration
+        endpoint:
+           info:
+              enabled: true
+           health:
+              enabled: true
+              show-details: always
+           metrics:
+              enabled: true
+           env:
+              enabled: true
+     #eureka:
+     #   instance:
+     #      hostname: ${app_registry_uri}
+     #      instanceId: ${app_registry_uri}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+     #      status-page-url-path: /management/ciapi/aceapiintegration/info
+     #      health-check-url-path: /management/ciapi/aceapiintegration/health
+     #   client:
+     #      healthcheck:
+     #         enabled: true
+     #      heartbeat-executor-thread-pool-size: 20
+     #      cache-refresh-executor-thread-pool-size: 20
+     #      eureka-server-total-connections-per-host: 100
+     #      eureka-server-connect-timeout-seconds: 15
+     #      eureka-server-read-timeout-seconds: 20
+     ciapi:
+        database:
+           schema: ciapi_qa
+        security:
+           uri:
+              antpattern: /**
+     httpclient:
+        max-total-connections: 1000
+        max-route-connections: 200
+        default-keep-alive-time: 30000
+        idle-connection-wait-time: 30000
+        connect-timeout: 20000
+        request-timeout: 60000
+        socket-timeout: 60000
+     jit-service:
+        host: ciapi-wso2is-jit-provisioning-service
+        url: /is/
+        port: 80
+        username: wso24ciapi
+        password: ws021sC1ap1!
+        protocol: http
+     is-user-service:
+        host: ciapi-user-service
+        url: /is/
+        port: 80
+        username: wso24ciapi
+        password: ws021sC1ap1!
+        protocol: http      
+     user-subscription-service:
+        host: ciapi-user-subscription-service
+        port: 80
+        url:  /
+        username: ciusapi
+        password: x3iY9P&*8%zK
+        protocol: http        
+     twilio:
+        service:
+           enabled: false
+        api:
+           accountSid: AC3e89160e70a9d54f630b138fc0534a17
+           authToken: 4c976a058361049484840a203fd8f775
+           serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+     owner-service:
+        url: https://test-apimarketplace.west.com/test/internal/SynchOwnerAPIWebService/SynchOwnerAPIWebService
+     company-service:
+        url: https://test-apimarketplace.west.com/test/internal/CompanyWebService/CompanyWebService
+     catalog-service:
+        url: https://test-apimarketplace.west.com/test/internal/CatalogAPIWebService/CatalogAPIWebService
+     api-service:
+        username: ciapiaceintegration_qa
+        password: password
+     owner:
+        umx:
+           features: exit-announcement,Domestic Dial Out Country,Secure Recording,Audio Archive Hosting Time
+     health:
+        config:
+           enabled: false
+     logging:
+        pattern:
+           console: |
+              %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+           level: |
+              %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+        level:
+           root: DEBUG
+           com.westuc.ciapi.integration.restful: DEBUG
+           com.westuc.ciapi.integration.restful.AceApiIntegrationController: DEBUG
+           com.westuc.ciapi.integration.persistence.jdbc.AceApiTokenJdbcRepository: DEBUG
+           com.westuc.ciapi.Slf4jRequestLoggingFilter: DEBUG
+           org.springframework: ERROR
+           org.apache.http: ERROR
+           org.hibernate: ERROR
+           com.netflix.eureka: DEBUG
+           com.netflix.discovery: DEBUG
+           reactor: ERROR
+           com.newrelic: INFO
+     server.error.include-message: always
+     server.servlet.encoding.force: true
+     eureka.client.enabled: false
+     management.health.rabbit.enabled: false
+     message: '****|CIAPI-ACEAPI-INTEGRATION|****'
+     ---
+     spring:
+        config:
+           activate:
+              on-profile: den06-qa
+     aceapi:
+        datasource:
+           url: 'jdbc:informix-sqli://ibm622.icallinc.com:7508/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+     ---
+     spring:
+        config:
+           activate:
+              on-profile: swn01-qa
+     aceapi:
+        datasource:
+           url: 'jdbc:informix-sqli://uic00021.icallinc.com:1605/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+ 

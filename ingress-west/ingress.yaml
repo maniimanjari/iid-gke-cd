@@ -1,0 +1,371 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: iid-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "iid-qa-west-static-ip"
+    networking.gke.io/managed-certificates: "iid-managed-cert,dps-managed-cert"
+    networking.gke.io/v1beta1.FrontendConfig: "iid-frontend-ssl-redirect-config"
+spec:
+  rules:
+  - host: ci-catalog-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-catalog-service
+              port:
+                number: 80
+  - host: ci-error-log-handler.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-error-log-handler
+              port:
+                number: 80
+  - host: ci-log-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-log-service
+              port:
+                number: 80
+  - host: ci-search-application-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-application-service
+              port:
+                number: 80
+  - host: ci-search-attribute-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-attribute-service
+              port:
+                number: 80
+  - host: ci-search-business-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-business-service
+              port:
+                number: 80
+  - host: ci-search-customer-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-customer-service
+              port:
+                number: 80
+  - host: ci-search-email-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-email-service
+              port:
+                number: 80
+  - host: ci-search-release-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-release-service
+              port:
+                number: 80
+  - host: ci-search-social-site-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-social-site-service
+              port:
+                number: 80
+  - host: ci-search-template-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-template-service
+              port:
+                number: 80
+  - host: ci-search-user-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ci-search-user-service
+              port:
+                number: 80
+  - host: ciapi-aceapi-integration.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-aceapi-integration
+              port:
+                number: 80
+  - host: ciapi-application-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-application-service
+              port:
+                number: 80
+  - host: ciapi-business-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-business-service
+              port:
+                number: 80
+  - host: ciapi-customer-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-customer-service
+              port:
+                number: 80
+  - host: ciapi-customer-subscription-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-customer-subscription-service
+              port:
+                number: 80
+  - host: ciapi-provisioning-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-provisioning-service
+              port:
+                number: 80
+  - host: ciapi-release-notes-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-release-notes-service
+              port:
+                number: 80
+  - host: ciapi-schedule-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-schedule-service
+              port:
+                number: 80
+  - host: ciapi-user-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-user-service
+              port:
+                number: 80
+  - host: ciapi-user-subscription-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-user-subscription-service
+              port:
+                number: 80
+  - host: ciapi-wso2is-email-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-wso2is-email-service
+              port:
+                number: 80
+  - host: ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-wso2is-jit-provisioning-service
+              port:
+                number: 80
+  - host: ciapi-mass-processing.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: ciapi-mass-processing
+              port:
+                number: 80
+  - host: crm-portal.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: cif-admin-portal-service
+              port:
+                number: 80
+  - host: launchpad.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: cif-launchpad
+              port:
+                number: 80
+  - host: rna.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: westid-rna
+              port:
+                number: 80
+  - host: dps-db-alert-monitor.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: dps-alert-monitor-ui-gke-service
+              port:
+                number: 80
+# temporary  mapping
+#  - host: ci-email-processor.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: ci-email-reprocessor.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: internal-customer-service.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: internal-customer-subscription-service.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: internal-user-service.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80
+#  - host: internal-user-subscription-service.iid-qa.uccenter.com
+#    http:
+#      paths:
+#        - path: /*
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ci-error-log-handler
+#              port:
+#                number: 80

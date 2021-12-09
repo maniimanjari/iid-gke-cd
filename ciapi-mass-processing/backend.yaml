@@ -1,0 +1,13 @@
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: ciapi-mass-processing
+spec:
+  timeoutSec: 1800
+  connectionDraining:
+    drainingTimeoutSec: 1800
+  healthCheck:
+    checkIntervalSec: 15
+    port: 80
+    type: HTTP
+    requestPath: /message

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${name_space}
+  name: ci-search-email-service
+  creationTimestamp: null
+  labels:
+    app: ci-search-email-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ci-search-email-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ci-search-email-service
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ci-search-email-service:latest
+          name: ci-search-email-service
+          imagePullPolicy: Always
+          env:
+              - name: JAVA_TOOL_OPTIONS
+                value: "-Dserver.port=80 -Dspring.application.name=ci-search-email-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ci-search-email-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -Dnewrelic.environment=test"
+              - name: SPRING_PROFILES_ACTIVE
+                value: "${app_profile}"
+              - name: SPRING_APPLICATION_NAME
+                value: "ci-search-email-service"
+          livenessProbe:
+            httpGet:
+              path: /message
+              port: 80
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: ci-search-email-service
+              mountPath: /config
+      volumes:
+        - name: ci-search-email-service
+          configMap:
+            name: ci-search-service-qa
+status: {}

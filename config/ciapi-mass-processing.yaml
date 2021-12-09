@@ -1,0 +1,159 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-mass-processing-qa
+  #resourceVersion: "1.0"
+  #uid: c25e940d-e804-4481-be38-6841ca1cf576
+data:
+  application-qa.yml: |
+    ---
+    health.config.enabled: false
+    ciapi:
+       database:
+          schema: ciapi_qa
+       security:
+          uri:
+             antpattern: /**
+       async:
+          core-pool-size: 2
+          max-pool-size: 5
+          queue-capacity: 500
+          thread-name-prefix: 'ciapi-mass-processing-'
+       mp:
+          retries: 3
+          ci-retry-interval-mins: 1
+          ace-retry-interval-mins: 5
+          ace-retry-interval-secs: 5
+          reprocess-interval-delay: 5
+          ace-retrieve-interval-delay: 60
+          processors-max-count: 10
+          processors-queue-size: 11
+          processors-queue-retrieve-interval-delay: 5
+
+    #Development
+    spring:
+       profiles.include: service-registry,aceapi-integration
+       security:
+          basic.enabled: false
+
+       messages:
+          basename: common-messages,messages
+          cache-seconds: -1
+          encoding: UTF-8
+       aop:
+          proxy-target-class: true
+       cloud:
+          services:
+             registrationMethod: route
+          stream:
+             overrideCloudConnectors: false
+
+    httpclient:
+       max-total-connections: 1400
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: INFO
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: DEBUG
+          com.westuc.ciapi.massprocessing.domain.service: TRACE
+          org.springframework: ERROR
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          reactor: ERROR
+          com.newrelic: INFO
+
+    management:
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/massprocessing/
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+
+
+    is-customer-service:
+       host: ciapi-customer-service
+       port: 80
+       url:  /is/customers
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+
+    customer-service:
+       host: ciapi-customer-service
+       port: 80
+       url:  /customers
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+
+    is-customer-subscription-service:
+       host: ciapi-customer-subscription-service
+       port: 80
+       url:  /is/customers
+       username: wso24ciapi
+       password: ws021sC1ap1!
+       protocol: http
+
+    customer-subscription-service:
+       host: ciapi-customer-subscription-service
+       port: 80
+       url:  /customers
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+
+    user-service:
+       host: ciapi-user-service
+       port: 80
+       url:
+       username: cimassapi
+       password: Q3d&8*B~Y*5$
+       protocol: http
+
+    user-subscription-service:
+       host: ciapi-user-subscription-service
+       port: 80
+       url:
+       username: ciusapi
+       password: x3iY9P&*8%zK
+       protocol: http
+
+    #   host: ciapi-aceapi-integration.app.pcftest.one.west.com
+    ace-event-service:
+       host: ciapi-aceapi-integration
+       port: 80
+       url:
+       username: aceapi
+       password: aceapi123!
+       protocol: http
+    message: '****|CIAPI-MASS-PROCESS|****'
+
+    ciapi.protocol: http
+
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false

@@ -1,0 +1,161 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-wso2is-authentication-log-service-qa
+  #resourceVersion: "1.0"
+  #uid: 2f97e8fa-aee0-4b42-818a-ceab02355616
+data:
+  application-qa.yml: |
+    ---
+    spring:
+       config:
+          activate:
+             on-profile: qa
+       datasource:
+          username: itcisal
+          password: itcisalq
+          driver-class-name: org.postgresql.Driver
+          factory: org.apache.tomcat.jdbc.pool.DataSourceFactory
+          tomcat:
+             max-age: 1800000
+             max-wait: 30000
+             max-active: 220
+             initial-size: 10
+             max-idle: 10
+             min-idle: 10
+             time-between-eviction-runs-millis: 30000
+             min-evictable-idle-time-millis: 30000
+             remove-abandoned: true
+             remove-abandoned-timeout: 600
+             log-abandoned: true
+             abandon-when-percentage-full: 0
+             test-on-borrow: true
+             validation-query: select 1
+             validation-interval: 20000
+             test-while-idle: true
+             test-on-connect: true
+             log-validation-errors: true
+             jdbc-interceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+       messages:
+          basename: common-messages,messages
+          cache-duration: -1
+          encoding: UTF-8
+       aop:
+          proxy-target-class: true
+       mvc:
+          async:
+             request-timeout: 90000
+       http:
+          encoding:
+             force: true
+    ciapi:
+       database:
+          schema: citrnlog
+       security:
+          basic:
+             uri:
+                antpattern: /is/**
+             roles: ISUSER
+             users:
+                -
+                   username: wso24ciapi
+                   password: ws021sC1ap1!
+                   roles: ISUSER
+    security:
+       basic:
+          enabled: false
+       user:
+          name: wso24ciapi
+          password: ws021sC1ap1!
+    twilio:
+      service:
+        enabled: false
+      api:
+        accountSid: AC3e89160e70a9d54f630b138fc0534a17
+        authToken: 4c976a058361049484840a203fd8f775
+        serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+    management:
+       security:
+          role: APP_CLIENT
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/is-authn/
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+             show-details: always
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+    httpclient:
+       max-total-connections: 1000
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+    swagger:
+       title: Event Log API API for IS Integration
+       description: This API provides the services needed for WSO2 Identity Server to operate on Authentication Event logs
+       version: 1.0
+       contact:
+          name: West Unified Communications
+          email: ciapi.support@west.com
+       path:
+          selector: /is/authn/**
+    server:
+       error:
+          include-message: always
+    health:
+       config:
+          enabled: false
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: DEBUG
+          org.springframework: DEBUG
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+          org.springframework.boot.autoconfigure: ERROR
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: ERROR
+          org.springframework.boot.autoconfigure.security: ERROR
+          org.springframework.security : ERROR
+          org.springframework.jdbc: DEBUG
+          org.springframework.amqp.rabbit.listener.BlockingQueueConsumer: ERROR
+          com.netflix.eureka: DEBUG
+          com.netflix.discovery: DEBUG
+          com.rabbitmq.client: ERROR
+          com.newrelic: INFO
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|CIAPI-WSO2IS-AUTHENTICATION-LOG-SERVICE|****'
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cilogdb-qa-den06.west.com:5433/citrndb?currentSchema=citrnlog'
+       config:
+          activate:
+             on-profile: den06-qa | gcp-den06-qa
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cilogdb-qa-swn01.west.com:5433/citrndb?currentSchema=citrnlog'
+       config:
+          activate:
+             on-profile: swn01-qa | gcp-swn01-qa

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${name_space}
+  name: cif-admin-portal
+  labels:
+    app: cif-admin-portal
+spec:
+  selector:
+    matchLabels:
+      app: cif-admin-portal
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: cif-admin-portal
+    spec:
+      containers:
+        - name: cif-admin-portal
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:latest
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=cif-admin-portal -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.app_name=lp-gcp-app -javaagent:/newrelic/newrelic.jar -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.licenseKey=d67210cdd7109fefbfdf3b9739f77e7d53acee76"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "${app_profile}"
+            - name: SPRING_APPLICATION_NAME
+              value: "cif-admin-portal"
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /message
+              scheme: HTTP
+              port: 80
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+#          readinessProbe:
+#            httpGet:
+#              path: /message
+#              scheme: HTTP
+#              port: 80
+#            initialDelaySeconds: 50
+#            periodSeconds: 5
+#            successThreshold: 1
+#            timeoutSeconds: 120
+#            failureThreshold: 10

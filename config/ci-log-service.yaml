@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ci-log-service-qa
+  #resourceVersion: "1.0"
+  #uid: ae331649-7326-473e-ad2b-a262ceba0df3
+data:
+  application-qa.yml: |
+    ---
+    health.config.enabled: false
+    spring:
+      database: POSTGRESQL
+      show-sql: true
+      datasource:
+        platform: postgres
+        driverClassName: org.postgresql.Driver
+        factory: org.apache.tomcat.jdbc.pool.DataSourceFactory
+        pool-size: 2
+        tomcat:
+          max-age: 1800000
+          max-wait: 10000
+          max-active: 2
+          initial-size: 1
+          max-idle: 1
+          min-idle: 1
+          time-between-eviction-runs-millis: 30000
+          min-evictable-idle-time-millis: 30000
+          remove-abandoned: true
+          remove-abandoned-timeout: 120
+          log-abandoned: true
+          abandon-when-percentage-full: 0
+          test-on-borrow: true
+          validation-query: select 1
+          validation-interval: 20000
+          test-while-idle: true
+          test-on-connect: true
+          log-validation-errors: true
+          jdbcInterceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+        username: ciportal
+        password: ciportal
+      aop:
+        proxy-target-class: true
+      cloud:
+        gcp:
+          config:
+            project-id: cc-bo-portals-devtest-01
+        services:
+          registrationMethod: route
+        stream:
+          override-cloud-connectors: false
+          bindings:
+            output:
+              destination: logErrorChannel
+              content-type: application/json
+              producer:
+                requiredGroups: email
+    logging:
+      pattern:
+        console: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+        level: |
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+      level:
+        com.west: INFO
+        com.west.ci.filter: DEBUG
+        com.westuc: ERROR
+        com.netflix: WARN
+        org.apache: WARN
+        org.spring: WARN
+        org.springframework: WARN
+        org.hibernate: WARN
+        org.newrelic: WARN
+        org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+        com.newrelic: INFO
+        org.springframework.cloud.kubernetes: DEBUG
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|${spring.application.name}|****'
+    search:
+      result:
+        maxResults: 50000
+    security:
+      user:
+        password: none
+      oauth2:
+        resource:
+          jwt:
+            keyValue: |
+              -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQWwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9iijpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQmdc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNKmAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB
+              -----END PUBLIC KEY-----
+
+    #config and rabbit MQ bindings & zipkin
+    ---
+    spring:
+      profiles: swn01-qa
+      datasource:
+        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+
+    ---
+    spring:
+      profiles: den06-qa
+      datasource:
+        url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'

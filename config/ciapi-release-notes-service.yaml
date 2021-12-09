@@ -1,0 +1,209 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${name_space}
+  creationTimestamp: null
+  name: ciapi-release-notes-service-qa
+  #resourceVersion: "1.0"
+  #uid: d46bd157-f638-4c79-9d75-72d800d3b4b9
+data:
+  application-qa.yml: |
+    ---
+    spring:
+       config:
+          activate:
+             on-profile: qa
+       datasource:
+          username: itcrncu
+          password: itcrncuq
+          driverClassName: org.postgresql.Driver
+          factory: org.apache.tomcat.jdbc.pool.DataSourceFactory
+          tomcat:
+             max-age: 1800000
+             max-wait: 30000
+             max-active: 2
+             initial-size: 1
+             max-idle: 1
+             min-idle: 1
+             time-between-eviction-runs-millis: 30000
+             min-evictable-idle-time-millis: 30000
+             remove-abandoned: true
+             remove-abandoned-timeout: 600
+             log-abandoned: true
+             abandon-when-percentage-full: 0
+             test-on-borrow: true
+             validation-query: select 1
+             validation-interval: 20000
+             test-while-idle: true
+             test-on-connect: true
+             log-validation-errors: true
+             jdbcInterceptors: ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout=90);SlowQueryReport(threshold=30000);ResetAbandonedTimer
+       messages:
+          basename: common-messages,messages
+          cache-seconds: -1
+          encoding: UTF-8
+       aop:
+          proxy-target-class: true
+       mvc:
+          async:
+             request-timeout: 90000
+       security:
+          user:
+             name: ciusapi
+             password: x3iY9P&*8%zK
+             roles: CIAPIUSER,APP_CLIENT,ISUSER
+       http:
+          encoding:
+             force: true
+       rabbitmq:
+          ssl:
+             verify-hostname: false
+    twilio:
+      service:
+        enabled: false
+      api:
+        accountSid: AC3e89160e70a9d54f630b138fc0534a17
+        authToken: 4c976a058361049484840a203fd8f775
+        serviceId: VA5f2d01c87c30d30956fcf59b96514b78
+    management:
+       context-path: /management/ciapi/rnas
+       security:
+          enabled: false
+       endpoints:
+          enabled-by-default: false
+          web:
+             exposure:
+                include: '*'
+             base-path: /management/ciapi/rnas
+       endpoint:
+          info:
+             enabled: true
+          health:
+             enabled: true
+             show-details: always
+          metrics:
+             enabled: true
+          env:
+             enabled: true
+             mask:
+                enabled: true
+    endpoints:
+       actuator:
+          sensitive: false
+       shutdown:
+          enabled: true
+       health:
+          sensitive: false
+    #eureka:
+    #   instance:
+    #      hostname: ${app_registry_uri}
+    #      instanceId: ${app_registry_uri}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    #      status-page-url-path: /management/ciapi/release/info
+    #      health-check-url-path: /management/ciapi/release/health
+    #   client:
+    #      healthcheck:
+    #         enabled: true
+    #      heartbeat-executor-thread-pool-size: 20
+    #      cache-refresh-executor-thread-pool-size: 20
+    #      eureka-server-total-connections-per-host: 100
+    #      eureka-server-connect-timeout-seconds: 15
+    #      eureka-server-read-timeout-seconds: 20
+    ciapi:
+       database:
+          schema: ciapi_qa
+       security:
+          oauth2:
+             uri:
+                antpattern: /release/ap/**,/release/client/**
+          basic:
+             uri:
+                antpattern: /release/public/**
+             roles: CIAPIUSER,APP_CLIENT,ISUSER
+             users:
+                -
+                   username: ciusapi
+                   password: x3iY9P&*8%zK
+                   roles: CIAPIUSER,APP_CLIENT
+       jwt:
+          key:
+             file: wso2carbon-test.cert
+    httpclient:
+       max-total-connections: 1000
+       max-route-connections: 200
+       default-keep-alive-time: 30000
+       idle-connection-wait-time: 30000
+       connect-timeout: 20000
+       request-timeout: 60000
+       socket-timeout: 60000
+    nr:
+       insights:
+          enabled: true
+          date:
+             format: MM/dd/yyyy hh:mm aa z
+    release:
+       date:
+          format: yyyy/MM/dd
+    security:
+       basic:
+          enabled: true
+       user:
+          name: ciusapi
+          password: 'x3iY9P&*8%zK'
+          role: APP_CLIENT
+    swagger:
+       title: Release Notes API for Admin Portal and clients
+       description: This API provides the services to manage the release notes for IID applicaitons
+       version: 1.0
+       contact:
+          name: West Unified Communications
+          email: ciapi.support@west.com
+       path:
+          selector: /release/**
+    server:
+       servlet:
+          encoding:
+             force: true
+    health:
+       config:
+          enabled: false
+    logging:
+       pattern:
+          console: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+          level: |
+             %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
+       level:
+          root: DEBUG
+          org.springframework: DEBUG
+          org.apache.http: ERROR
+          org.hibernate: ERROR
+          org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
+          org.springframework.boot.autoconfigure: ERROR
+          com.westuc.ciapi.Slf4jRequestLoggingFilter: ERROR
+          org.springframework.boot.autoconfigure.security: ERROR
+          org.springframework.security : ERROR
+          org.springframework.jdbc: DEBUG
+          org.springframework.amqp.rabbit.listener.BlockingQueueConsumer: ERROR
+          com.netflix.eureka: DEBUG
+          com.netflix.discovery: DEBUG
+          com.rabbitmq.client: ERROR
+          com.newrelic: INFO
+    server.error.include-message: always
+    server.servlet.encoding.force: true
+    eureka.client.enabled: false
+    management.health.rabbit.enabled: false
+    message: '****|CIAPI-RELEASE-NOTES-SERVICE|****'
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: den06-qa | gcp-den06-qa
+    ---
+    spring:
+       datasource:
+          url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+       config:
+          activate:
+             on-profile: swn01-qa | gcp-swn01-qa

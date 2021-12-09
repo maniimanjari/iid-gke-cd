@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: ${name_space}
   creationTimestamp: null
   name: westid-rna-qa
   #resourceVersion: "1.2"
