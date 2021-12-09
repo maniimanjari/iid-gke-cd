@@ -64,9 +64,9 @@ steps:
   id: 'create-name-space'
   args: ['apply', '-f', 'push-name-space']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=us-${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor:
     - '-'
 
@@ -99,7 +99,7 @@ steps:
 #
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'push-ingress-west'
-#  args: ['apply', '-f', '${CLOUDSDK_CONTAINER_INGRESS}']
+#  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
 #  env:
 #    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
 #    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
@@ -111,10 +111,10 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  CLOUDSDK_COMPUTE_ZONE: 'us-central1-a'
-  CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1-a'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
   #CLOUDSDK_COMPUTE_ZONE: 'us-west1-a'
   #CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
   #CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
