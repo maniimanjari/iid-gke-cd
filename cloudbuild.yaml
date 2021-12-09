@@ -97,7 +97,7 @@ steps:
   waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-ingress-west'
+  id: 'push-ingress'
   args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
