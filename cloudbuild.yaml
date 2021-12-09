@@ -73,8 +73,8 @@ steps:
   id: 'push-configs'
   args: ['apply', '-f', 'config']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['create-name-space']
 
@@ -82,8 +82,8 @@ steps:
   id: 'push-apis'
   args: ['apply', '-f', 'stage-apis']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['create-name-space','prepare-build']
 
@@ -91,8 +91,8 @@ steps:
   id: 'push-portals'
   args: ['apply', '-f', 'stage-portals']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
 
@@ -100,8 +100,8 @@ steps:
   id: 'push-ingress-west'
   args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
   env:
-    - 'CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=us-${CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
 
