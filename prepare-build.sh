@@ -20,7 +20,7 @@ for i in $(ls -d */); do
         cp $file  ./stage-portals/$(basename $PWD/${i})-$(basename "$file");
       done;
   fi
-  if [[  $i == iid-name* ]]; then
+  if [[  $i == name-spa* ]]; then
     echo $i
       for file in $PWD/${i}/*; do
         echo "push-name-space >>> $(basename $PWD/${i})-$(basename "$file")"
