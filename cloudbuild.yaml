@@ -59,7 +59,16 @@ steps:
 #  args: ['bash', './prepare-build.sh']
 #  waitFor:
 #    - '-'
-#
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'create-name-space'
+  #args: ['delete', '-f', 'push-name-space']
+  args: ['get', 'nodes']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'create-name-space'
 #  #args: ['delete', '-f', 'push-name-space']
@@ -97,13 +106,13 @@ steps:
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
 #  waitFor: ['prepare-build','create-name-space','push-configs','push-apis']
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-ingress'
-  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-ingress'
+#  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
 #  waitFor: ['prepare-build','create-name-space','push-configs','push-apis','push-portals']
 
 timeout: 600s
@@ -111,10 +120,16 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #QA-WEST
   #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
   #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
   #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  #STAGE-Central
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-02'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'stg-us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
