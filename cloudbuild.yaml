@@ -60,10 +60,27 @@ steps:
 #  waitFor:
 #    - '-'
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'create-name-space'
-  #args: ['delete', '-f', 'push-name-space']
-  args: ['get', 'nodes']
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'testing'
+#  #args: ['delete', '-f', 'push-name-space']
+#  args: ['get', 'nodes']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      export PROJECT_ID=$CLOUDSDK_CORE_PROJECT
+      gcloud container clusters get-credentials $CLOUDSDK_CONTAINER_CLUSTER --region $CLOUDSDK_COMPUTE_ZONE --project $CLOUDSDK_CORE_PROJECT
+      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
+      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
+      gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
+      kubectl create secret generic pubsub-key --from-file=gkey.json=./pubkey.json
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -120,16 +137,16 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
   #QA-WEST
   #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
   #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
   #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
   #STAGE-Central
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-02'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'stg-us-central1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-02'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'stg-us-central1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
