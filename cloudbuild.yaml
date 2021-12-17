@@ -74,7 +74,7 @@ steps:
   args:
     - '-c'
     - |
-      export PROJECT_ID=$_CLOUDSDK_CONTAINER_CLUSTER
+      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
       gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
       gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
       gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
