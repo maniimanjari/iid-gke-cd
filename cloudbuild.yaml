@@ -80,8 +80,7 @@ steps:
       gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
       #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
-      kubectl get deployments
-      kubectl create secret generic pubsub-key --from-file=gkey.json=./pubkey.json
+      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
