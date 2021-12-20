@@ -22,18 +22,19 @@ spec:
       labels:
         app: ciapi-application-service
     spec:
-      #serviceAccountName: api-reader
       containers:
         - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-application-service:latest
           name: ciapi-application-service
           imagePullPolicy: Always
           env:
-              - name: JAVA_TOOL_OPTIONS
-                value: "-Dserver.port=80 -Dspring.application.name=ciapi-application-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ciapi-application-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -javaagent:/newrelic/newrelic.jar -Dnewrelic.environment=test"
-              - name: SPRING_PROFILES_ACTIVE
-                value: "qa,swn01-qa"
-              - name: SPRING_APPLICATION_NAME
-                value: "ciapi-application-service"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=ciapi-application-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ciapi-application-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -javaagent:/newrelic/newrelic.jar -Dnewrelic.environment=test"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "${_APPLICTION_PROFILE}"
+            - name: SPRING_APPLICATION_NAME
+              value: "ciapi-application-service"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/gkey.json
           livenessProbe:
             httpGet:
               path: /message
@@ -46,8 +47,13 @@ spec:
           volumeMounts:
             - name: ciapi-application-service
               mountPath: /config
+            - name: pub-sub-v
+              mountPath: /var/secrets/google
       volumes:
         - name: ciapi-application-service
           configMap:
             name: ciapi-application-service-qa
+        - name: pub-sub-v
+          secret:
+            secretName: iid-pub-sa-key
 status: {}

@@ -69,22 +69,40 @@ steps:
 #    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
-      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
-      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
-      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
-      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
-      #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
-      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-filebeat-central'
+  args: ['apply', '-f', 'ciapi-application-service']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+    - '_APPLICTION_PROFILE=${_APPLICTION_PROFILE}'
+
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  id: 'create-pub-sub-key'
+#  entrypoint: 'bash'
+#  args:
+#    - '-c'
+#    - |
+#      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+#
+#      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
+#
+#      #Clean
+#      #kubectl delete secret iid-pub-sa-key
+#      #gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+#      #gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
+#
+#      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
+#      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+#      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
+#      #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
+#      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'create-name-space'
@@ -141,6 +159,7 @@ substitutions:
   _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
   _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
   _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _APPLICTION_PROFILE: 'qa,swn01-qa,gcp'
   #QA-WEST
   #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
   #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
