@@ -153,7 +153,7 @@ steps:
       #gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       #gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
 
-      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
+      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages" || exit 0
       gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
       #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
