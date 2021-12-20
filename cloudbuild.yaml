@@ -77,7 +77,6 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-    - '_APPLICTION_PROFILE=${_APPLICTION_PROFILE}'
 
 #- name: 'gcr.io/cloud-builders/gcloud'
 #  id: 'create-pub-sub-key'
