@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  PCC_API_URL: https://dps-alert-pcc-api-i5yvaantoq-uc.a.run.app/
+  SPRING_PROFILES_ACTIVE: qa
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dps-alert-monitor-ui
+  name: dps-alert-monitor-ui-config-aljg
+  namespace: default

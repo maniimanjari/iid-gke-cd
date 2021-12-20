@@ -20,18 +20,20 @@ spec:
           image: gcr.io/cc-bo-portals-devtest-01/dps-alert-monitor-ui:latest
           imagePullPolicy: Always
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=dps-alert-monitor-ui"
             - name: SPRING_PROFILES_ACTIVE
-              value: "qa"
-              #valueFrom:
-              #  configMapKeyRef:
-              #    key: SPRING_PROFILES_ACTIVE
-              #    name: dps-alert-monitor-ui-gke-config-aljg
+              #value: "qa"
+              valueFrom:
+                configMapKeyRef:
+                  key: SPRING_PROFILES_ACTIVE
+                  name: dps-alert-monitor-ui-config-aljg
             - name: PCC_API_URL
-              value: "https://dps-alert-pcc-api-i5yvaantoq-uc.a.run.app/"
-              #valueFrom:
-              #  configMapKeyRef:
-              #    key: PCC_API_URL
-              #    name: dps-alert-monitor-ui-gke-config-aljg
+              #value: "https://dps-alert-pcc-api-i5yvaantoq-uc.a.run.app/"
+              valueFrom:
+                configMapKeyRef:
+                  key: PCC_API_URL
+                  name: dps-alert-monitor-ui-config-aljg
           ports:
             - containerPort: 80
           livenessProbe:
