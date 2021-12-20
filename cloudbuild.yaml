@@ -69,6 +69,15 @@ steps:
 #    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
 
+- name: 'ubuntu'
+  id: 'prepare-build'
+  args: ['bash', './prepare-build.sh']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor:
+    - '-'
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-filebeat-central'
@@ -102,6 +111,8 @@ steps:
 #    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
 #    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
 #    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+
+
 
 #- name: 'gcr.io/cloud-builders/kubectl'
 #  id: 'create-name-space'
@@ -158,7 +169,6 @@ substitutions:
   _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
   _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
   _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  _APPLICTION_PROFILE: 'qa,swn01-qa,gcp'
   #QA-WEST
   #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
   #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
