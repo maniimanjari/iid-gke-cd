@@ -24,11 +24,13 @@ spec:
           imagePullPolicy: Always
           env:
               - name: JAVA_TOOL_OPTIONS
-                value: "-Dserver.port=80 -Dspring.application.name=ciapi-customer-service -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.app_name=gcp-ciapi-customer-service -Dnewrelic.config.orgs=CommonIdentity -Dnewrelic.enable.java.8=true -javaagent:/newrelic/newrelic.jar -Dnewrelic.home=/newrelic -javaagent:/newrelic/newrelic.jar -Dnewrelic.environment=test"
+                value: "-Dserver.port=80 -Dspring.application.name=ciapi-customer-service"
               - name: SPRING_PROFILES_ACTIVE
-                value: "qa,swn01-qa"
+                value: "_APP_PROFILE"
               - name: SPRING_APPLICATION_NAME
                 value: "ciapi-customer-service"
+              - name: GOOGLE_APPLICATION_CREDENTIALS
+                value: /var/secrets/google/gkey.json
           livenessProbe:
             httpGet:
               path: /message
@@ -41,8 +43,13 @@ spec:
           volumeMounts:
             - name: ciapi-customer-service
               mountPath: /config
+            - name: pub-sub-v
+              mountPath: /var/secrets/google
       volumes:
         - name: ciapi-customer-service
           configMap:
             name: ciapi-customer-service-qa
+        - name: pub-sub-v
+          secret:
+            secretName: iid-pub-sa-key
 status: {}

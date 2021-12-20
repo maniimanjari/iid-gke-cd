@@ -114,7 +114,7 @@ data:
             antpattern: /customers/**
         basic:
           uri:
-            antpattern: /de/customers/**,/is/customers/**
+            antpattern: /de/customers/**,/is/customers/**,/customers/internal/**
           roles: CIAPIUSER,APP_CLIENT,ISUSER
           users:
             -

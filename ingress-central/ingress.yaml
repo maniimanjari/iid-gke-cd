@@ -295,7 +295,7 @@ spec:
           pathType: ImplementationSpecific
           backend:
             service:
-              name: westid-rna
+              name: dps-alert-monitor-ui
               port:
                 number: 80
 # temporary  mapping

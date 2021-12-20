@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: dps-alert-monitor-ui
+  labels:
+    app: dps-alert-monitor-ui
+spec:
+  selector:
+    matchLabels:
+      app: dps-alert-monitor-ui
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: dps-alert-monitor-ui
+    spec:
+      containers:
+        - name: dps-alert-monitor-ui
+          image: gcr.io/cc-bo-portals-devtest-01/dps-alert-monitor-ui:latest
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  key: SPRING_PROFILES_ACTIVE
+                  name: dps-alert-monitor-ui-gke-config-aljg
+            - name: PCC_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: PCC_API_URL
+                  name: dps-alert-monitor-ui-gke-config-aljg
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /endpoints/health
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30

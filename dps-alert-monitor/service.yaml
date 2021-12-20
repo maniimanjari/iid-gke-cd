@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: dps-alert-monitor-ui
+  labels:
+    app: dps-alert-monitor-ui
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"dps-backendconfig"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+    #cloud.google.com/app-protocols: '{"my-https-port":"HTTPS","my-http-port":"HTTP"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: dps-alert-monitor-ui
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80

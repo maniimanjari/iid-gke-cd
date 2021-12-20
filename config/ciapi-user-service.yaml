@@ -149,7 +149,7 @@ data:
                 antpattern: /aceapi/users/**,/users/**,/lp/users/**,/customers/**,/public/users/**,/public/email/**,/public/configuration/**,/public/subscriptions/**,/public/users/countryPhoneCodes/**
           basic:
              uri:
-                antpattern: /de/users/**,/is/users/**,/aceapi/users/**,/users/**,/management/ciapi/users/env,/public/users/hoothome/**,/public/users/iid/**
+                antpattern: /de/users/**,/is/users/**,/aceapi/users/**,/users/**,/management/ciapi/users/env,/public/users/hoothome/**,/public/users/iid/**,/users/internal/**
              roles: CIAPIUSER,APP_CLIENT,ISUSER,MASSPROVISIONING,UMX_CLIENT,IOL_CLIENT,ICRM_CLIENT
              users:
                 -

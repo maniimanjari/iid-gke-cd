@@ -26,9 +26,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Dserver.port=80 -Dspring.application.name=cif-launchpad -Dnewrelic.config.log_file_name=STDOUT -Dnewrelic.config.app_name=lp-gcp-app -javaagent:/newrelic/newrelic.jar -Dnewrelic.config.license_key=d67210cdd7109fefbfdf3b9739f77e7d53acee76 -Dnewrelic.config.licenseKey=d67210cdd7109fefbfdf3b9739f77e7d53acee76"
+              value: "-Dserver.port=80 -Dspring.application.name=cif-launchpad"
             - name: SPRING_PROFILES_ACTIVE
-              value: "qa,swn01-qa"
+              value: "_APP_PROFILE"
             - name: SPRING_APPLICATION_NAME
               value: "cif-launchpad"
 #            - name: HOSTNAME

@@ -33,6 +33,7 @@ for i in $(ls -d */); do
 done
 echo "Execution directory for apis deployment *** $(ls $PWD/stage-apis)"
 find $PWD/stage-apis/ -type f -exec sed -i "s/_APP_PROFILE/${_APPLICTION_PROFILE}/g" {} +
-echo "UUID >>>  rams >>> $(cat /proc/sys/kernel/random/uuid)"
+find $PWD/stage-portals/ -type f -exec sed -i "s/_APP_PROFILE/${_APPLICTION_PROFILE}/g" {} +
+#echo "UUID >>>  rams >>> $(cat /proc/sys/kernel/random/uuid)"
 echo "Execution directory for portals deployment *** $(ls $PWD/stage-portals)"
 #echo "Execution directory for name space deployment *** $(ls $PWD/push-name-space)"
