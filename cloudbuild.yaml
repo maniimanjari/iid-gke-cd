@@ -196,16 +196,16 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  #_APPLICTION_PROFILE: 'qa,swn01-qa'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _APPLICTION_PROFILE: 'qa,swn01-qa'
 
 #West
 
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-west1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
-  _APPLICTION_PROFILE: 'qa,den06-qa'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  #_APPLICTION_PROFILE: 'qa,den06-qa'
