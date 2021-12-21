@@ -153,11 +153,11 @@ steps:
       #gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       #gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
 
-      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages" || exit 0
+      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
       gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
       #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
-      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json
+      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -196,16 +196,16 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  _APPLICTION_PROFILE: 'qa,swn01-qa'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #_APPLICTION_PROFILE: 'qa,swn01-qa'
 
 #West
 
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
-  #_APPLICTION_PROFILE: 'qa,den06-qa'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  _APPLICTION_PROFILE: 'qa,den06-qa'
