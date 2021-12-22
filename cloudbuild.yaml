@@ -89,14 +89,14 @@
 #    waitFor: ['prepare-build']
 
 steps:
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'install-certs'
-  args: ['delete', '-f', 'managed-certificates']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['-']
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'install-certs'
+#  args: ['delete', '-f', 'managed-certificates']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['-']
 
 - name: 'ubuntu'
   id: 'prepare-build'
@@ -189,7 +189,7 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['install-certs','prepare-build','pub-sub-key','push-configs','push-apis','push-portals']
+  waitFor: ['prepare-build','pub-sub-key','push-configs','push-apis','push-portals']
 
 timeout: 600s
 options:
