@@ -183,31 +183,31 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   #waitFor: ['prepare-build','pub-sub-key','push-configs','push-apis']
   waitFor: ['prepare-build','push-configs','push-apis']
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'push-ingress'
-  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  #waitFor: ['install-certs','prepare-build','pub-sub-key','push-configs','push-apis','push-portals']
-  waitFor: ['prepare-build','push-configs','push-apis','push-portals']
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'push-ingress'
+#  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#  #waitFor: ['install-certs','prepare-build','pub-sub-key','push-configs','push-apis','push-portals']
+#  waitFor: ['prepare-build','push-configs','push-apis','push-portals']
 
 timeout: 600s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  _APPLICTION_PROFILE: 'qa,swn01-qa'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  #_APPLICTION_PROFILE: 'qa,swn01-qa'
 
 #West
 
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
-  #_APPLICTION_PROFILE: 'qa,den06-qa'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  _APPLICTION_PROFILE: 'qa,den06-qa'
