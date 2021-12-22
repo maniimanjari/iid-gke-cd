@@ -89,14 +89,14 @@
 #    waitFor: ['prepare-build']
 
 steps:
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: 'install-certs'
-  args: ['apply', '-f', 'managed-certificates']
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['-']
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  id: 'install-certs'
+#  args: ['apply', '-f', 'managed-certificates']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['-']
 
 - name: 'ubuntu'
   id: 'prepare-build'
@@ -138,35 +138,35 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['-']
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'pub-sub-key'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      #export PROJECT_ID=cc-bo-portals-devtest-01
-      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
-      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
-
-      #Clean
-      #kubectl delete secret iid-pub-sa-key
-      #gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
-      #gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
-
-      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
-      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
-      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
-      #gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
-      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
-  env:
-    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['prepare-build']
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  id: 'pub-sub-key'
+#  entrypoint: 'bash'
+#  args:
+#    - '-c'
+#    - |
+#      ##export PROJECT_ID=cc-bo-portals-devtest-01
+#      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+#      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
+#
+#      ##Clean
+#      ##kubectl delete secret iid-pub-sa-key
+#      ##gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+#      ##gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
+#
+#      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
+#      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+#      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
+#      ##gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
+#      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#  waitFor: ['prepare-build']
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-apis'
-  args: ['delete', '-f', 'stage-apis']
+  args: ['apply', '-f', 'stage-apis']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -175,7 +175,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-portals'
-  args: ['delete', '-f', 'stage-portals']
+  args: ['apply', '-f', 'stage-portals']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -184,7 +184,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-ingress'
-  args: ['delete', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
