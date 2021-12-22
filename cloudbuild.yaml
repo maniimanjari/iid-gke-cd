@@ -171,7 +171,8 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['pub-sub-key','push-configs','prepare-build']
+  #waitFor: ['pub-sub-key','push-configs','prepare-build']
+  waitFor: ['push-configs','prepare-build']
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-portals'
@@ -180,8 +181,8 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  waitFor: ['prepare-build','pub-sub-key','push-configs','push-apis']
-
+  #waitFor: ['prepare-build','pub-sub-key','push-configs','push-apis']
+  waitFor: ['prepare-build','push-configs','push-apis']
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-ingress'
   args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
