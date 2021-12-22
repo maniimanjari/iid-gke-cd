@@ -91,7 +91,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'install-certs'
-  args: ['apply', '-f', 'managed-certificates']
+  args: ['delete', '-f', 'managed-certificates']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -111,7 +111,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-filebeat-central'
-  args: ['apply', '-f', 'filebeat']
+  args: ['delete', '-f', 'filebeat']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -131,7 +131,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'dps-alert-monitor'
-  args: ['apply', '-f', 'dps-alert-monitor']
+  args: ['delete', '-f', 'dps-alert-monitor']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -166,7 +166,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-apis'
-  args: ['apply', '-f', 'stage-apis']
+  args: ['delete', '-f', 'stage-apis']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -175,7 +175,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-portals'
-  args: ['apply', '-f', 'stage-portals']
+  args: ['delete', '-f', 'stage-portals']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -184,7 +184,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-ingress'
-  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  args: ['delete', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -196,16 +196,16 @@ options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  #_APPLICTION_PROFILE: 'qa,swn01-qa'
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _APPLICTION_PROFILE: 'qa,swn01-qa'
 
 #West
 
-  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-west1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
-  _APPLICTION_PROFILE: 'qa,den06-qa'
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  #_APPLICTION_PROFILE: 'qa,den06-qa'
