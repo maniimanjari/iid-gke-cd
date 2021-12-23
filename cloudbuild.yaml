@@ -16,29 +16,30 @@ steps:
       ##gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
 
       vuser=$(gcloud iam service-accounts describe iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com | grep 'iid-pub-sa')
-
-      if [[ ! $vkey == *"iid-pub-sa"* ]]; then
+      echo "vuser  >>> $vuser "
+      if [[ ! $vuser == *"iid-pub-sa"* ]]; then
           echo "user not exist >>> create user "
           gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
       fi
 
       vrole=$(gcloud projects get-iam-policy $PROJECT_ID --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com" | grep 'roles/pubsub.editor')
-
+      echo "vrole  >>> $vrole "
       if [[ ! $vrole == *"roles/pubsub.editor"* ]]; then
         echo "role not exist"
         gcloud projects add-iam-policy-binding $_PROJECT_IDT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       fi
 
       vkey=$(kubectl describe secrets/iid-pub-sa-key | grep 'gkey.json')
-
+      echo "vkey  >>> $vkey "
       if [[ ! $vkey == *"gkey.json"* ]]; then
-              echo "not exist"
+          echo "not exist"
           gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
           kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
       fi
 
       if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
           vcert=kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert'
+          echo "vcert  >>> $vcert "
           if [[ ! $vcert == *"iid-managed-cert"* ]]; then
               echo "certificate not exist on central"
               kubectl apply -f ./managed-certificates/google-managed.yaml
