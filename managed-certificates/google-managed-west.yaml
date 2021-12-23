@@ -1,0 +1,43 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: iid-managed-cert-west
+spec:
+  domains:
+    - ci-catalog-service.iid-qa.uccenter.com
+    - ci-error-log-handler.iid-qa.uccenter.com
+    - ci-log-service.iid-qa.uccenter.com
+    - ci-search-application-service.iid-qa.uccenter.com
+    - ci-search-attribute-service.iid-qa.uccenter.com
+    - ci-search-business-service.iid-qa.uccenter.com
+    - ci-search-customer-service.iid-qa.uccenter.com
+    - ci-search-email-service.iid-qa.uccenter.com
+    - ci-search-release-service.iid-qa.uccenter.com
+    - ci-search-social-site-service.iid-qa.uccenter.com
+    - ci-search-template-service.iid-qa.uccenter.com
+    - ci-search-user-service.iid-qa.uccenter.com
+    - ciapi-aceapi-integration.iid-qa.uccenter.com
+    - ciapi-application-service.iid-qa.uccenter.com
+    - ciapi-business-service.iid-qa.uccenter.com
+    - ciapi-customer-service.iid-qa.uccenter.com
+    - ciapi-customer-subscription-service.iid-qa.uccenter.com
+    - ciapi-provisioning-service.iid-qa.uccenter.com
+    - ciapi-release-notes-service.iid-qa.uccenter.com
+    - ciapi-schedule-service.iid-qa.uccenter.com
+    - ciapi-user-service.iid-qa.uccenter.com
+    - ciapi-user-subscription-service.iid-qa.uccenter.com
+    - ciapi-wso2is-email-service.iid-qa.uccenter.com
+    - ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com
+    - ciapi-mass-processing.iid-qa.uccenter.com
+    - crm-portal.iid-qa.uccenter.com
+    - launchpad.iid-qa.uccenter.com
+    - rna.iid-qa.uccenter.com
+    - dps-db-alert-monitor.iid-qa.uccenter.com
+
+#    - ci-email-processor.iid-qa.uccenter.com
+#    - ci-email-reprocessor.iid-qa.uccenter.com
+#    - ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com
+#    - internal-customer-service.iid-qa.uccenter.com
+#    - internal-customer-subscription-service.iid-qa.uccenter.com
+#    - internal-user-service.iid-qa.uccenter.com
+#    - internal-user-subscription-service.iid-qa.uccenter.com

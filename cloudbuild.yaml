@@ -1,102 +1,61 @@
-#Reference
-#west Cluster
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-filebeat'
-#  args: ['apply', '-f', 'filebeat']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
-#  waitFor:
-#    - '-'
-
-#- name: 'gcr.io/cloud-builders/gcloud'
-#  entrypoint: 'bash'
-#  args:
-#    - '-c'
-#    - |
-#      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
-#      rm -rf ~/.kube/config
-#      gcloud config get-value project
-#      gcloud container clusters list
-#      gcloud components install kubectl
-#      apt-get install kubectl
-#      gcloud config set project cc-bo-portals-devtest-02
-#      gcloud container clusters get-credentials stg-us-central1-cluster-1 --zone us-central1-a --project cc-bo-portals-devtest-02
-#      gcloud config get-value project
-#      gcloud config set project cc-bo-portals-devtest-02
-#      kubectl --insecure-skip-tls-verify=true get nodes
-#      gcloud config set project cc-bo-portals-devtest-02
-#      kubectl --insecure-skip-tls-verify=true get all
-#      gcloud container clusters list
-#      cat ~/.kube/config
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-02'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=stg-us-central1-cluster-1'
-
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-filebeat-west'
-#  args: ['apply', '-f', 'filebeat']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-west1-cluster-1'
-#  waitFor:
-#    - '-'
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-filebeat-central'
-#  args: ['apply', '-f', 'filebeat']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=cc-bo-portals-devtest-01'
-#    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=us-central1-cluster-1'
-#  waitFor:
-#    - 'push-filebeat-west'
-
-#- name: 'ubuntu'
-#  id: 'prepare-build'
-#  args: ['bash', './prepare-build.sh']
-#  waitFor:
-#    - '-'
-
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'testing'
-#  #args: ['delete', '-f', 'push-name-space']
-#  args: ['get', 'nodes']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'create-name-space'
-#  #args: ['delete', '-f', 'push-name-space']
-#  args: ['get', 'nodes']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['prepare-build']
-#
-#  - name: 'gcr.io/cloud-builders/kubectl'
-#    id: 'push-filebeat-central'
-#    args: ['apply', '-f', 'stage-apis']
-#    env:
-#      - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#      - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-#    waitFor: ['prepare-build']
-
 steps:
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'install-certs'
-#  args: ['apply', '-f', 'managed-certificates']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['-']
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'set-up'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      ##export PROJECT_ID=cc-bo-portals-devtest-01
+      #export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+
+      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
+
+      ##Clean
+      ##kubectl delete secret iid-pub-sa-key
+      ##gcloud projects remove-iam-policy-binding $_CLOUDSDK_CORE_PROJECT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com"
+      ##gcloud iam service-accounts delete -q  iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com
+
+      vuser=$(gcloud iam service-accounts describe iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com | grep 'iid-pub-sa')
+
+      if [[ ! $vkey == *"iid-pub-sa"* ]]; then
+          echo "user not exist >>> create user "
+          gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
+      fi
+
+      vrole=$(gcloud projects get-iam-policy $_CLOUDSDK_CORE_PROJECT --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com" | grep 'roles/pubsub.editor')
+
+      if [[ ! $vrole == *"roles/pubsub.editor"* ]]; then
+        echo "role not exist"
+        gcloud projects add-iam-policy-binding $_CLOUDSDK_CORE_PROJECT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com"
+      fi
+
+      vkey=$(kubectl describe secrets/iid-pub-sa-key | grep 'gkey.json')
+
+      if [[ ! $vkey == *"gkey.json"* ]]; then
+              echo "not exist"
+          gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com
+          kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
+      fi
+
+      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
+          vcert=kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert'
+          if [[ ! $vcert == *"iid-managed-cert"* ]]; then
+              echo "certificate not exist on central"
+              kubectl apply -f ./managed-certificates/google-managed.yaml
+          fi
+      fi
+      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
+          vcert=kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west'
+          if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
+              echo "certificate not exist on west"
+              kubectl apply -f ./managed-certificates/google-managed-west.yaml
+          fi
+      fi
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['-']
 
 - name: 'ubuntu'
   id: 'prepare-build'
@@ -118,8 +77,6 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['-']
 
-
-
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-configs'
   args: ['apply', '-f', 'config']
@@ -138,32 +95,6 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
   waitFor: ['-']
 
-#- name: 'gcr.io/cloud-builders/gcloud'
-#  id: 'pub-sub-key'
-#  entrypoint: 'bash'
-#  args:
-#    - '-c'
-#    - |
-#      ##export PROJECT_ID=cc-bo-portals-devtest-01
-#      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
-#      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
-#
-#      ##Clean
-#      ##kubectl delete secret iid-pub-sa-key
-#      ##gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
-#      ##gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
-#
-#      gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
-#      gcloud projects add-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
-#      gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
-#      ##gcloud auth activate-service-account --project=$PROJECT_ID --key-file=./pubkey.json
-#      kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-#  waitFor: ['prepare-build']
-
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-apis'
   args: ['apply', '-f', 'stage-apis']
@@ -171,8 +102,7 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  #waitFor: ['pub-sub-key','push-configs','prepare-build']
-  waitFor: ['push-configs','prepare-build']
+  waitFor: ['set-up','push-configs','prepare-build']
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-portals'
@@ -181,33 +111,30 @@ steps:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-  #waitFor: ['prepare-build','pub-sub-key','push-configs','push-apis']
-  waitFor: ['prepare-build','push-configs','push-apis']
-#- name: 'gcr.io/cloud-builders/kubectl'
-#  id: 'push-ingress'
-#  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
-#  env:
-#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
-#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
-#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-#  #waitFor: ['install-certs','prepare-build','pub-sub-key','push-configs','push-apis','push-portals']
-#  waitFor: ['prepare-build','push-configs','push-apis','push-portals']
+  waitFor: ['prepare-build','set-up','push-configs','push-apis']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'push-ingress'
+  args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['set-up','prepare-build','push-configs','push-apis','push-portals']
 
 timeout: 600s
 options:
   workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  #_CLOUDSDK_COMPUTE_ZONE: 'us-central1'
-  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
-  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
-  #_APPLICTION_PROFILE: 'qa,swn01-qa'
-
-#West
-
   _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
-  _CLOUDSDK_COMPUTE_ZONE: 'us-west1'
-  _CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
-  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
-  _APPLICTION_PROFILE: 'qa,den06-qa'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _CLOUDSDK_CONTAINER_INGRESS: 'ingress-central'
+  _APPLICTION_PROFILE: 'qa,swn01-qa'
+#West
+  #_CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  #_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+  #_CLOUDSDK_CONTAINER_INGRESS: 'ingress-west'
+  #_APPLICTION_PROFILE: 'qa,den06-qa'
