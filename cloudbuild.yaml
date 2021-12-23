@@ -6,34 +6,34 @@ steps:
     - '-c'
     - |
       ##export PROJECT_ID=cc-bo-portals-devtest-01
-      #export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
 
-      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $_CLOUDSDK_CORE_PROJECT
+      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $PROJECT_ID
 
       ##Clean
       ##kubectl delete secret iid-pub-sa-key
-      ##gcloud projects remove-iam-policy-binding $_CLOUDSDK_CORE_PROJECT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com"
-      ##gcloud iam service-accounts delete -q  iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com
+      ##gcloud projects remove-iam-policy-binding $PROJECT_ID --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
+      ##gcloud iam service-accounts delete -q  iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
 
-      vuser=$(gcloud iam service-accounts describe iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com | grep 'iid-pub-sa')
+      vuser=$(gcloud iam service-accounts describe iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com | grep 'iid-pub-sa')
 
       if [[ ! $vkey == *"iid-pub-sa"* ]]; then
           echo "user not exist >>> create user "
           gcloud iam service-accounts create iid-pub-sa --display-name "service account for publishing/subscribing messages"
       fi
 
-      vrole=$(gcloud projects get-iam-policy $_CLOUDSDK_CORE_PROJECT --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com" | grep 'roles/pubsub.editor')
+      vrole=$(gcloud projects get-iam-policy $PROJECT_ID --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com" | grep 'roles/pubsub.editor')
 
       if [[ ! $vrole == *"roles/pubsub.editor"* ]]; then
         echo "role not exist"
-        gcloud projects add-iam-policy-binding $_CLOUDSDK_CORE_PROJECT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com"
+        gcloud projects add-iam-policy-binding $_PROJECT_IDT --role "roles/pubsub.editor"  --member "serviceAccount:iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com"
       fi
 
       vkey=$(kubectl describe secrets/iid-pub-sa-key | grep 'gkey.json')
 
       if [[ ! $vkey == *"gkey.json"* ]]; then
               echo "not exist"
-          gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$_CLOUDSDK_CORE_PROJECT.iam.gserviceaccount.com
+          gcloud iam service-accounts keys create ./pubkey.json --iam-account iid-pub-sa@$PROJECT_ID.iam.gserviceaccount.com
           kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
       fi
 
