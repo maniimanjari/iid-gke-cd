@@ -38,7 +38,7 @@ steps:
       fi
 
       if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
-          vcert=kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert'
+          vcert=$(kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert')
           echo "vcert  >>> $vcert "
           if [[ ! $vcert == *"iid-managed-cert"* ]]; then
               echo "certificate not exist on central"
@@ -46,7 +46,7 @@ steps:
           fi
       fi
       if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
-          vcert=kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west'
+          vcert=$(kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west')
           if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
               echo "certificate not exist on west"
               kubectl apply -f ./managed-certificates/google-managed-west.yaml
