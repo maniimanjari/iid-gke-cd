@@ -11,7 +11,10 @@ metadata:
     #kubernetes.io/ingress.global-static-ip-name: "cif-admin-portal-ingress-ip"
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.132.65.238
+  #loadBalancerIP: 34.132.65.238
+  #loadBalancerIP: 10.113.100.24
+  #loadBalancerIP: 34.149.24.25
+  #loadBalancerIP: 104.198.53.33
 #  externalTrafficPolicy: Local 34.134.221.90
   selector:
     app: cif-admin-portal
