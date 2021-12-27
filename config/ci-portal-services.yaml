@@ -93,7 +93,7 @@ data:
         servicesEndPoints:
           catalog: ci-catalog-service:80
           application: ciapi-application-service:80/applications
-          business: ciapi-business-service:80/business
+          business: ciapi-business-service:FB-DEVOPS-451-202112271250-633fa1a
           customer: ciapi-customer-service:80/customers
           customerSubscription: ciapi-customer-subscription-service:80/customers
           user: ciapi-user-service:80/users
