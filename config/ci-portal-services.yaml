@@ -128,14 +128,22 @@ data:
             keyValue: -----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQWwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9iijpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQmdc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNKmAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB-----END PUBLIC KEY-----
 
     #config and rabbit MQ bindings & zipkin
-    ---
+#    ---
+#    spring:
+#      profiles: swn01-qa
+#      datasource:
+#        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+#
+#    ---
+#    spring:
+#      profiles: den06-qa
+#      datasource:
+#        url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+  application-den06-qa.yml: |
     spring:
-      profiles: swn01-qa
-      datasource:
-        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
-
-    ---
-    spring:
-      profiles: den06-qa
       datasource:
         url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+  application-swn01-qa.yml: |
+    spring:
+      datasource:
+        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'

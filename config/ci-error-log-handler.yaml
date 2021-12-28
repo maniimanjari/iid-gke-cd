@@ -93,14 +93,22 @@ data:
               -----END PUBLIC KEY-----
 
     #config and rabbit MQ bindings & zipkin
-    ---
+#    ---
+#    spring:
+#      profiles: swn01-qa
+#      datasource:
+#        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+#
+#    ---
+#    spring:
+#      profiles: den06-qa
+#      datasource:
+#        url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+  application-den06-qa.yml: |
     spring:
-      profiles: swn01-qa
-      datasource:
-        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
-
-    ---
-    spring:
-      profiles: den06-qa
       datasource:
         url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
+  application-swn01-qa.yml: |
+    spring:
+      datasource:
+        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dps-alert-monitor-ui-config-aljg
+data:
+  SPRING_PROFILES_ACTIVE: qa
+  PCC_API_URL: https://dps-alert-pcc-api-i5yvaantoq-uc.a.run.app/

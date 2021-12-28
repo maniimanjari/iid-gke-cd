@@ -174,19 +174,30 @@ data:
      eureka.client.enabled: false
      management.health.rabbit.enabled: false
      message: '****|CIAPI-ACEAPI-INTEGRATION|****'
-     ---
-     spring:
-        config:
-           activate:
-              on-profile: den06-qa
+
+#     ---
+#     spring:
+#        config:
+#           activate:
+#              on-profile: den06-qa
+#     aceapi:
+#        datasource:
+#           url: 'jdbc:informix-sqli://ibm622.icallinc.com:7508/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+#     ---
+#     spring:
+#        config:
+#           activate:
+#              on-profile: swn01-qa
+#     aceapi:
+#        datasource:
+#           url: 'jdbc:informix-sqli://uic00021.icallinc.com:1605/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+
+
+   application-swn01-qa.yml: |
      aceapi:
         datasource:
            url: 'jdbc:informix-sqli://ibm622.icallinc.com:7508/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
-     ---
-     spring:
-        config:
-           activate:
-              on-profile: swn01-qa
+   application-den06-qa.yml: |
      aceapi:
         datasource:
            url: 'jdbc:informix-sqli://uic00021.icallinc.com:1605/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
