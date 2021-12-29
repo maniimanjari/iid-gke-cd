@@ -23,7 +23,7 @@ spec:
         app: ciapi-business-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-business-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-business-service:FB-DEVOPS-451-202112290552-8f7ae27
           imagePullPolicy: Always
           name: ciapi-business-service
           env:
