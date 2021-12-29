@@ -37,45 +37,45 @@ steps:
           kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
       fi
 
-      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
-      ##    vcert=$(kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert')
-      ##    echo "vcert  >>> $vcert "
-      ##    if [[ ! $vcert == *"iid-managed-cert"* ]]; then
-      ##        echo "certificate not exist on central"
-      ##        kubectl apply -f ./managed-certificates/google-managed.yaml
-      ##    fi
-      ##fi
-      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
-      ##    vcert=$(kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west')
-      ##    if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
-      ##        echo "certificate not exist on west"
-      ##        kubectl apply -f ./managed-certificates/google-managed-west.yaml
-      ##    fi
-      ##fi
-
       if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
-          vcert=$(gcloud compute ssl-certificates describe iid-managed-cert | grep 'iid-managed-cert')
+          vcert=$(kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert')
           echo "vcert  >>> $vcert "
           if [[ ! $vcert == *"iid-managed-cert"* ]]; then
               echo "certificate not exist on central"
-              #kubectl apply -f ./managed-certificates/google-managed.yaml
-              gcloud compute ssl-certificates create iid-managed-cert \
-              --domains=ci-catalog-service.iid-qa.uccenter.com,ci-error-log-handler.iid-qa.uccenter.com,ci-log-service.iid-qa.uccenter.com,ci-search-application-service.iid-qa.uccenter.com,ci-search-attribute-service.iid-qa.uccenter.com,ci-search-business-service.iid-qa.uccenter.com,ci-search-customer-service.iid-qa.uccenter.com,ci-search-email-service.iid-qa.uccenter.com,ci-search-release-service.iid-qa.uccenter.com,ci-search-social-site-service.iid-qa.uccenter.com,ci-search-template-service.iid-qa.uccenter.com,ci-search-user-service.iid-qa.uccenter.com,ciapi-aceapi-integration.iid-qa.uccenter.com,ciapi-application-service.iid-qa.uccenter.com,ciapi-business-service.iid-qa.uccenter.com,ciapi-customer-service.iid-qa.uccenter.com,ciapi-customer-subscription-service.iid-qa.uccenter.com,ciapi-provisioning-service.iid-qa.uccenter.com,ciapi-release-notes-service.iid-qa.uccenter.com,ciapi-schedule-service.iid-qa.uccenter.com,ciapi-user-service.iid-qa.uccenter.com,ciapi-user-subscription-service.iid-qa.uccenter.com,ciapi-wso2is-email-service.iid-qa.uccenter.com,ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com,ciapi-mass-processing.iid-qa.uccenter.com,ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com,crm-portal.iid-qa.uccenter.com,launchpad.iid-qa.uccenter.com,rna.iid-qa.uccenter.com,internal-customer-service.iid-qa.uccenter.com,internal-user-service.iid-qa.uccenter.com,internal-user-subscription-service.iid-qa.uccenter.com,internal-customer-subscription-service.iid-qa.uccenter.com,dps-db-alert-monitor.iid-qa.uccenter.com \
-              --description="iid backoffice certificate" \
-              --global
-        fi
-      fi
-      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
-          vcert=$(gcloud compute ssl-certificates describe iid-managed-cert-west | grep 'iid-managed-cert-west')
-          if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
-              echo "certificate not exist on west"
-              #kubectl apply -f ./managed-certificates/google-managed-west.yaml
-              gcloud compute ssl-certificates create iid-managed-cert-west \
-              --domains=ci-catalog-service.iid-qa.uccenter.com,ci-error-log-handler.iid-qa.uccenter.com,ci-log-service.iid-qa.uccenter.com,ci-search-application-service.iid-qa.uccenter.com,ci-search-attribute-service.iid-qa.uccenter.com,ci-search-business-service.iid-qa.uccenter.com,ci-search-customer-service.iid-qa.uccenter.com,ci-search-email-service.iid-qa.uccenter.com,ci-search-release-service.iid-qa.uccenter.com,ci-search-social-site-service.iid-qa.uccenter.com,ci-search-template-service.iid-qa.uccenter.com,ci-search-user-service.iid-qa.uccenter.com,ciapi-aceapi-integration.iid-qa.uccenter.com,ciapi-application-service.iid-qa.uccenter.com,ciapi-business-service.iid-qa.uccenter.com,ciapi-customer-service.iid-qa.uccenter.com,ciapi-customer-subscription-service.iid-qa.uccenter.com,ciapi-provisioning-service.iid-qa.uccenter.com,ciapi-release-notes-service.iid-qa.uccenter.com,ciapi-schedule-service.iid-qa.uccenter.com,ciapi-user-service.iid-qa.uccenter.com,ciapi-user-subscription-service.iid-qa.uccenter.com,ciapi-wso2is-email-service.iid-qa.uccenter.com,ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com,ciapi-mass-processing.iid-qa.uccenter.com,ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com,crm-portal.iid-qa.uccenter.com,launchpad.iid-qa.uccenter.com,rna.iid-qa.uccenter.com,internal-customer-service.iid-qa.uccenter.com,internal-user-service.iid-qa.uccenter.com,internal-user-subscription-service.iid-qa.uccenter.com,internal-customer-subscription-service.iid-qa.uccenter.com,dps-db-alert-monitor.iid-qa.uccenter.com \
-              --description="iid backoffice certificate" \
-              --global
+              kubectl apply -f ./managed-certificates/google-managed.yaml
           fi
       fi
+      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
+          vcert=$(kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west')
+          if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
+              echo "certificate not exist on west"
+              kubectl apply -f ./managed-certificates/google-managed-west.yaml
+          fi
+      fi
+
+      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
+      ##    vcert=$(gcloud compute ssl-certificates describe iid-managed-cert | grep 'iid-managed-cert')
+      ##    echo "vcert  >>> $vcert "
+      ##    if [[ ! $vcert == *"iid-managed-cert"* ]]; then
+      ##        echo "certificate not exist on central"
+      ##        #kubectl apply -f ./managed-certificates/google-managed.yaml
+      ##        gcloud compute ssl-certificates create iid-managed-cert \
+      ##        --domains=ci-catalog-service.iid-qa.uccenter.com,ci-error-log-handler.iid-qa.uccenter.com,ci-log-service.iid-qa.uccenter.com,ci-search-application-service.iid-qa.uccenter.com,ci-search-attribute-service.iid-qa.uccenter.com,ci-search-business-service.iid-qa.uccenter.com,ci-search-customer-service.iid-qa.uccenter.com,ci-search-email-service.iid-qa.uccenter.com,ci-search-release-service.iid-qa.uccenter.com,ci-search-social-site-service.iid-qa.uccenter.com,ci-search-template-service.iid-qa.uccenter.com,ci-search-user-service.iid-qa.uccenter.com,ciapi-aceapi-integration.iid-qa.uccenter.com,ciapi-application-service.iid-qa.uccenter.com,ciapi-business-service.iid-qa.uccenter.com,ciapi-customer-service.iid-qa.uccenter.com,ciapi-customer-subscription-service.iid-qa.uccenter.com,ciapi-provisioning-service.iid-qa.uccenter.com,ciapi-release-notes-service.iid-qa.uccenter.com,ciapi-schedule-service.iid-qa.uccenter.com,ciapi-user-service.iid-qa.uccenter.com,ciapi-user-subscription-service.iid-qa.uccenter.com,ciapi-wso2is-email-service.iid-qa.uccenter.com,ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com,ciapi-mass-processing.iid-qa.uccenter.com,ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com,crm-portal.iid-qa.uccenter.com,launchpad.iid-qa.uccenter.com,rna.iid-qa.uccenter.com,internal-customer-service.iid-qa.uccenter.com,internal-user-service.iid-qa.uccenter.com,internal-user-subscription-service.iid-qa.uccenter.com,internal-customer-subscription-service.iid-qa.uccenter.com,dps-db-alert-monitor.iid-qa.uccenter.com \
+      ##        --description="iid backoffice certificate" \
+      ##        --global
+      ##  fi
+      ##fi
+      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
+      ##    vcert=$(gcloud compute ssl-certificates describe iid-managed-cert-west | grep 'iid-managed-cert-west')
+      ##    if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
+      ##        echo "certificate not exist on west"
+      ##        #kubectl apply -f ./managed-certificates/google-managed-west.yaml
+      ##        gcloud compute ssl-certificates create iid-managed-cert-west \
+      ##        --domains=ci-catalog-service.iid-qa.uccenter.com,ci-error-log-handler.iid-qa.uccenter.com,ci-log-service.iid-qa.uccenter.com,ci-search-application-service.iid-qa.uccenter.com,ci-search-attribute-service.iid-qa.uccenter.com,ci-search-business-service.iid-qa.uccenter.com,ci-search-customer-service.iid-qa.uccenter.com,ci-search-email-service.iid-qa.uccenter.com,ci-search-release-service.iid-qa.uccenter.com,ci-search-social-site-service.iid-qa.uccenter.com,ci-search-template-service.iid-qa.uccenter.com,ci-search-user-service.iid-qa.uccenter.com,ciapi-aceapi-integration.iid-qa.uccenter.com,ciapi-application-service.iid-qa.uccenter.com,ciapi-business-service.iid-qa.uccenter.com,ciapi-customer-service.iid-qa.uccenter.com,ciapi-customer-subscription-service.iid-qa.uccenter.com,ciapi-provisioning-service.iid-qa.uccenter.com,ciapi-release-notes-service.iid-qa.uccenter.com,ciapi-schedule-service.iid-qa.uccenter.com,ciapi-user-service.iid-qa.uccenter.com,ciapi-user-subscription-service.iid-qa.uccenter.com,ciapi-wso2is-email-service.iid-qa.uccenter.com,ciapi-wso2is-jit-provisioning-service.iid-qa.uccenter.com,ciapi-mass-processing.iid-qa.uccenter.com,ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com,crm-portal.iid-qa.uccenter.com,launchpad.iid-qa.uccenter.com,rna.iid-qa.uccenter.com,internal-customer-service.iid-qa.uccenter.com,internal-user-service.iid-qa.uccenter.com,internal-user-subscription-service.iid-qa.uccenter.com,internal-customer-subscription-service.iid-qa.uccenter.com,dps-db-alert-monitor.iid-qa.uccenter.com \
+      ##        --description="iid backoffice certificate" \
+      ##        --global
+      ##    fi
+      ##fi
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
