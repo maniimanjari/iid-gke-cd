@@ -3,13 +3,14 @@ kind: Deployment
 metadata:
   namespace: default
   name: cif-admin-portal
+  creationTimestamp: null
   labels:
     app: cif-admin-portal
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: cif-admin-portal
-  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,12 +18,13 @@ spec:
       maxSurge: 3
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: cif-admin-portal
     spec:
       containers:
-        - name: cif-admin-portal
-          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:latest
+          name: cif-admin-portal
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
@@ -31,25 +33,20 @@ spec:
               value: "_APP_PROFILE"
             - name: SPRING_APPLICATION_NAME
               value: "cif-admin-portal"
-          ports:
-            - containerPort: 80
           livenessProbe:
             httpGet:
               path: /message
-              scheme: HTTP
               port: 80
             initialDelaySeconds: 80
             periodSeconds: 30
             successThreshold: 1
             failureThreshold: 4
             timeoutSeconds: 30
-#          readinessProbe:
-#            httpGet:
-#              path: /message
-#              scheme: HTTP
-#              port: 80
-#            initialDelaySeconds: 50
-#            periodSeconds: 5
-#            successThreshold: 1
-#            timeoutSeconds: 120
-#            failureThreshold: 10
+          volumeMounts:
+            - name: cif-admin-portal
+              mountPath: /config
+      volumes:
+        - name: cif-admin-portal
+          configMap:
+            name: ci-portal-service-qa
+status: {}
