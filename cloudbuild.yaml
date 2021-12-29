@@ -37,21 +37,22 @@ steps:
           kubectl create secret generic iid-pub-sa-key --from-file=gkey.json=./pubkey.json  || exit 0
       fi
 
-#      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
-#          vcert=$(kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert')
-#          echo "vcert  >>> $vcert "
-#          if [[ ! $vcert == *"iid-managed-cert"* ]]; then
-#              echo "certificate not exist on central"
-#              kubectl apply -f ./managed-certificates/google-managed.yaml
-#          fi
-#      fi
-#      if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
-#          vcert=$(kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west')
-#          if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
-#              echo "certificate not exist on west"
-#              kubectl apply -f ./managed-certificates/google-managed-west.yaml
-#          fi
-#      fi
+      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
+      ##    vcert=$(kubectl get managedcertificate iid-managed-cert | grep 'iid-managed-cert')
+      ##    echo "vcert  >>> $vcert "
+      ##    if [[ ! $vcert == *"iid-managed-cert"* ]]; then
+      ##        echo "certificate not exist on central"
+      ##        kubectl apply -f ./managed-certificates/google-managed.yaml
+      ##    fi
+      ##fi
+      ##if [[  $_CLOUDSDK_COMPUTE_ZONE == *"west"* ]]; then
+      ##    vcert=$(kubectl get managedcertificate iid-managed-cert-west | grep 'iid-managed-cert-west')
+      ##    if [[ ! $vcert == *"iid-managed-cert-west"* ]]; then
+      ##        echo "certificate not exist on west"
+      ##        kubectl apply -f ./managed-certificates/google-managed-west.yaml
+      ##    fi
+      ##fi
+
       if [[  $_CLOUDSDK_COMPUTE_ZONE == *"central"* ]]; then
           vcert=$(gcloud compute ssl-certificates describe iid-managed-cert | grep 'iid-managed-cert')
           echo "vcert  >>> $vcert "
