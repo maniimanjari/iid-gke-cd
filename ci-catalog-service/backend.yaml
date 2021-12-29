@@ -3,6 +3,11 @@ kind: BackendConfig
 metadata:
   name: ci-catalog-service
 spec:
+  customRequestHeaders:
+    headers:
+      - "X-Client-Region:{client_region}"
+      - "X-Client-City:{client_city}"
+      - "X-Client-CityLatLong:{client_city_lat_long}"
   timeoutSec: 1800
   connectionDraining:
     drainingTimeoutSec: 60
