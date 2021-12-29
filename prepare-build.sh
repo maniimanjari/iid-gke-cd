@@ -9,7 +9,7 @@ echo "$_APPLICTION_PROFILE  rams >>> $_APPLICTION_PROFILE"
 echo "CLOUDSDK_CORE_PROJECT >>> rams $CLOUDSDK_CORE_PROJECT"
 echo "portals CLOUDSDK_CONTAINER_CLUSTER >>> $CLOUDSDK_CONTAINER_CLUSTER"
 for i in $(ls -d */); do
-  if [[  $i == ci-* || $i == file* || $i == ciapi-* ]]; then
+  if [[  $i == ci-* || $i == ciapi-* ]]; then
     echo $i
       for file in $PWD/${i}/*; do
         echo "CIAPIs >>> $(basename $PWD/${i})-$(basename "$file")"

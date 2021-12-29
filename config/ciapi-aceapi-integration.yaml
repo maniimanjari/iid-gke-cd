@@ -196,7 +196,9 @@ data:
    application-swn01-qa.yml: |
      aceapi:
         datasource:
-           url: 'jdbc:informix-sqli://ibm622.icallinc.com:7508/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+           url: 'jdbc:informix-sqli://uic00021.icallinc.com:1605/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+#           url: 'jdbc:informix-sqli://ibm622.icallinc.com:7508/ace_test:INFORMIXSERVER=inf_ace_test;IFX_LOCK_MODE_WAIT=30;IFX_ISOLATION_LEVEL=1'
+
    application-den06-qa.yml: |
      aceapi:
         datasource:
