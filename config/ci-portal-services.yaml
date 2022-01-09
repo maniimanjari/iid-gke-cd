@@ -49,7 +49,7 @@ data:
         level: |
           %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
       level:
-        com.west: DEBUG
+        com.west: INFO
         com.west.ci.filter: DEBUG
         com.westuc: DEBUG
         com.netflix: WARN
@@ -59,13 +59,7 @@ data:
         org.hibernate: WARN
         org.newrelic: WARN
         org.springframework.aop.interceptor.CustomizableTraceInterceptor: ERROR
-        org.springframework.boot.actuate: DEBUG
-        org.springframework.cloud.config: DEBUG
-        org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor: DEBUG
-        org.springframework.cloud.config.client.ConfigServicePropertySourceLocator: TRACE
-        org.springframework.boot.actuate.amqp.RabbitHealthIndicator: TRACE
-        org.springframework.boot.actuate.health.DataSourceHealthIndicator: TRACE
-        org.springframework.boot.actuate.health.AbstractHealthIndicator: TRACE
+        com.newrelic: INFO
     server.error.include-message: always
     server.servlet.encoding.force: true
     eureka.client.enabled: false
@@ -113,8 +107,8 @@ data:
     server:
       compression:
         enabled: true
+        #min-response-size: 2
         mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
-        min-response-size: 2
       session:
         timeout: 14400
     security:
@@ -133,11 +127,7 @@ data:
         resource:
           jwt:
             keyValue: -----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArt/0PHxQpuhjVmQWwE4ruKUdtGqaKj2xoipo2VK55uWvm/O/gCq5+yEz8mlKLGihX/L7+0D9iijpVUWK37UgY6hR3FP6HTEDPlm1kZAn5FEdosca7ATR0vmqe1DuZThbsRWhE0iDUPbF3spgqflYzgR7+lnuS/6uQw5F8lnvlIVhy9GOQmyJS62dzgARpkQmdc7p9Qfb17Xcu4WAO6VhzrmCBCuclLHLlw3ZI+E/SS4V9gMyW+lIcA+zqNKmAjNm/eEcDPrD46WgEZuuKRNysLi2GQ+wYuRkrAe8J9wNTDIoB6RB8WLLJ9fq8eE1GMCdocTr0PPGBUuG+iMxkuFS0QIDAQAB-----END PUBLIC KEY-----
-    spring.resources.cache.cachecontrol.cache-public: true
-    spring.resources.cache.cachecontrol.no-cache: false
-    spring.resources.cache.cachecontrol.no-store: false
-    spring.resources.cache.cachecontrol.must-revalidate: false
-    spring.resources.cache.cachecontrol.max-age: 31536000
+
     #config and rabbit MQ bindings & zipkin
 #    ---
 #    spring:
