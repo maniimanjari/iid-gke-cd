@@ -107,7 +107,6 @@ data:
     server:
       compression:
         enabled: true
-        #min-response-size: 2
         mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
       session:
         timeout: 14400
