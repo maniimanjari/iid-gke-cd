@@ -114,7 +114,7 @@ data:
       compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
-        min-response-size: 2KB
+        min-response-size: 2
       session:
         timeout: 14400
     security:
