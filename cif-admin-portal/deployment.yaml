@@ -23,7 +23,7 @@ spec:
         app: cif-admin-portal
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:FB-devops-451-202201110614-e51638d
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:NR-202201110702-93169b8
           name: cif-admin-portal
           imagePullPolicy: Always
           env:
