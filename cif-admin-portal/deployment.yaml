@@ -11,6 +11,7 @@ spec:
   selector:
     matchLabels:
       app: cif-admin-portal
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -23,7 +24,7 @@ spec:
         app: cif-admin-portal
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-admin-portal:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-portal:FB-devops-451-202201110531-dee1a44
           name: cif-admin-portal
           imagePullPolicy: Always
           env:
@@ -36,6 +37,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /message
+              scheme: HTTP
               port: 80
             initialDelaySeconds: 80
             periodSeconds: 30
