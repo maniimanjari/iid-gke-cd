@@ -49,9 +49,10 @@ data:
         level: |
           %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{APP_NAME:-${newrelic.config.process_host.display_name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{SPACE_NAME:-${cloud.application.space_name:-}},%X{authuser},%X{_tid_}] 00 --- [%t] %logger : %replace(%msg){'[\r\n]',' -- '}--%replace(%ex){'[\r\n]',' -- '}%n
       level:
-        com.west: INFO
+        com.west: DEBUG
         com.west.ci.filter: DEBUG
         com.westuc: DEBUG
+        com.west.ci.portal.controller.SearchController: DEBUG
         com.netflix: WARN
         org.apache: WARN
         org.spring: WARN
