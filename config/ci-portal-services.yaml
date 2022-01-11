@@ -104,10 +104,11 @@ data:
     nr.insights.enabled: true
     nr.insights.date.format: MM/dd/yyyy hh:mm aa z
 
+    server.compression.enabled: true
+    server.compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css,image/jpeg,image/gif,image/png,image/x-icon
+    server.compression.min-response-size: 2
+
     server:
-      compression:
-        enabled: true
-        mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
       session:
         timeout: 14400
     security:
