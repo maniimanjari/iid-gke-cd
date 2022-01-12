@@ -22,6 +22,8 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Dserver.port=80 -Dspring.application.name=dps-alert-monitor-ui"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/gkey.json
             - name: SPRING_PROFILES_ACTIVE
               #value: "qa"
               valueFrom:
@@ -45,3 +47,10 @@ spec:
             successThreshold: 1
             failureThreshold: 4
             timeoutSeconds: 30
+          volumeMounts:
+            - name: run-invoker-v
+              mountPath: /var/secrets/google
+      volumes:
+        - name: run-invoker-v
+          secret:
+            secretName: iid-pub-sa-key
