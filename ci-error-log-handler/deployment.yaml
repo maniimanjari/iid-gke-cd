@@ -23,7 +23,7 @@ spec:
         app: ci-error-log-handler
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ci-error-log-handler:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ci-error-log-handler:NR-202201170930-a5bbcb2
           name: ci-error-log-handler
           imagePullPolicy: Always
           env:
