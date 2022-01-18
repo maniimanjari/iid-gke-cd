@@ -92,7 +92,7 @@ data:
           user: ci-search-user-service:80
           release: ci-search-release-service:80
         servicesEndPoints:
-          catalog: ci-catalog-service:NR-202201181015-9701572
+          catalog: ci-catalog-service:NR-202201181018-1e3f2a8
           application: ciapi-application-service:80/applications
           business: ciapi-business-service:80/business
           customer: ciapi-customer-service:80/customers
