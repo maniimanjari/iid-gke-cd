@@ -23,7 +23,7 @@ spec:
         app: ci-catalog-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ci-catalog-service:NR-202201170916-fd1a105
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ci-catalog-service:NR-202201180821-8ff9869
           name: ci-catalog-service
           imagePullPolicy: Always
           env:
