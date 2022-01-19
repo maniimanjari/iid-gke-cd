@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: cif-launchpad
-          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-launchpad:NR-202201190309-4b151ad
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/cif-launchpad:NR-202201190522-a754d30
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
