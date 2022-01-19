@@ -23,7 +23,7 @@ spec:
         app: ciapi-aceapi-integration
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-aceapi-integration:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-aceapi-integration:NR-202201190322-0b1dea2
           name: ciapi-aceapi-integration
           imagePullPolicy: Always
           env:
