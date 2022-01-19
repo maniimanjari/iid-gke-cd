@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: westid-rna
-          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/westid-rna:PR-202201190315-5b6b210
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/westid-rna:NR-202201190316-ed77f08
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
