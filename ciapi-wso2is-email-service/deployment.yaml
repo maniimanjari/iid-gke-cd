@@ -19,7 +19,7 @@ spec:
         app: ciapi-wso2is-email-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-email-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-email-service:FB-DEVOPS-451-202201200722-af150ab
           name: ciapi-wso2is-email-service
           imagePullPolicy: Always
           env:
