@@ -19,7 +19,7 @@ spec:
         app: ciapi-wso2is-jit-provisioning-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-jit-provisioning-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-jit-provisioning-service:NR-202201200719-9353358
           name: ciapi-wso2is-jit-provisioning-service
           imagePullPolicy: Always
           env:
