@@ -19,7 +19,7 @@ spec:
         app: ciapi-user-subscription-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-user-subscription-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-user-subscription-service:NR-202201200710-93a129a
           name: ciapi-user-subscription-service
           imagePullPolicy: Always
           env:
