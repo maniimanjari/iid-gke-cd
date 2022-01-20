@@ -23,7 +23,7 @@ spec:
         app: ciapi-customer-subscription-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-customer-subscription-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-customer-subscription-service:NR-202201200634-4d2fc59
           name: ciapi-customer-subscription-service
           imagePullPolicy: Always
           env:
