@@ -23,7 +23,7 @@ spec:
         app: ciapi-user-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-user-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-user-service:NR-202201200705-6501e77
           name: ciapi-user-service
           imagePullPolicy: Always
           env:
