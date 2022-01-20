@@ -23,7 +23,7 @@ spec:
         app: ciapi-wso2is-authentication-log-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-authentication-log-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-wso2is-authentication-log-service:FB-DEVOPS-451-202201200726-190ac2b
           imagePullPolicy: Always
           name: ciapi-wso2is-authentication-log-service
           env:
