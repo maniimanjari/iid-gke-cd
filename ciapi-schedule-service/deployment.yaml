@@ -19,7 +19,7 @@ spec:
         app: ciapi-schedule-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-schedule-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-schedule-service:NR-202201200655-663bc05
           name: ciapi-schedule-service
           imagePullPolicy: Always
           env:
