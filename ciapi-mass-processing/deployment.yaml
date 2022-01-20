@@ -23,7 +23,7 @@ spec:
         app: ciapi-mass-processing
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-mass-processing:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-mass-processing:NR-202201200703-d9a5a4b
           imagePullPolicy: Always
           name: ciapi-mass-processing
           env:
