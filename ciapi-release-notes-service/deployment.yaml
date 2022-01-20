@@ -19,7 +19,7 @@ spec:
         app: ciapi-release-notes-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-release-notes-service:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-release-notes-service:NR-202201200652-466b1e0
           name: ciapi-release-notes-service
           imagePullPolicy: Always
           env:
