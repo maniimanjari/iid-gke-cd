@@ -19,7 +19,7 @@ spec:
         app: ciapi-customer-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-customer-service:NR-202201250702-7dca3a5
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/ciapi-customer-service:NR-202201250717-b1068e1
           name: ciapi-customer-service
           imagePullPolicy: Always
           env:
