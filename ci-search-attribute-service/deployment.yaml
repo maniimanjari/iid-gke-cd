@@ -30,7 +30,12 @@ spec:
               - name: JAVA_TOOL_OPTIONS
                 value: "-Dserver.port=80 -Dspring.application.name=ci-search-attribute-service"
               - name: SPRING_PROFILES_ACTIVE
-                value: "_APP_PROFILE"
+                value: "${ENVIRONMENT}"
+              - name: ENVIRONMENT
+                valueFrom:
+                  configMapKeyRef:
+                    name: profile-config
+                    key: ENVIRONMENT
               - name: SPRING_APPLICATION_NAME
                 value: "ci-search-attribute-service"
           livenessProbe:

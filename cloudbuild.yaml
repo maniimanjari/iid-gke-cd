@@ -70,6 +70,17 @@ steps:
     - '-'
 
 - name: 'gcr.io/cloud-builders/kubectl'
+  id: 'env-config'
+  args: ['apply', '-f', 'env-config']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+    - '_APPLICTION_PROFILE=${_APPLICTION_PROFILE}'
+  waitFor: ['prepare-build']
+
+
+- name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-filebeat-central'
   args: ['apply', '-f', 'filebeat']
   env:

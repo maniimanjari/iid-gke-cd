@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: profile-config
+  namespace: default
+data:
+  ENVIRONMENT: _APP_PROFILE
