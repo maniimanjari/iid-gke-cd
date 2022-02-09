@@ -38,3 +38,6 @@ find $PWD/env-config/ -type f -exec sed -i "s/_APP_PROFILE/${_APPLICTION_PROFILE
 #echo "UUID >>>  rams >>> $(cat /proc/sys/kernel/random/uuid)"
 echo "Execution directory for portals deployment *** $(ls $PWD/stage-portals)"
 #echo "Execution directory for name space deployment *** $(ls $PWD/push-name-space)"
+
+#restart all
+#for v in $(kubectl get deployments | grep -v  ^NAME | awk '{print $1}'); do kubectl rollout restart deployment/$v;  done
