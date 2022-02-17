@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Dserver.port=80 -Dspring.application.name=merope-app-service"
+              value: "-Dspring.application.name=merope-app"
             - name: SPRING_PROFILES_ACTIVE
               value: "qa"
             - name: SPRING_APPLICATION_NAME
