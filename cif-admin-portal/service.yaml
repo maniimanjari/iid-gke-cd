@@ -10,7 +10,7 @@ metadata:
     cloud.google.com/neg: '{"ingress": true}'
     #kubernetes.io/ingress.global-static-ip-name: "cif-admin-portal-ingress-ip"
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   #loadBalancerIP: 34.132.65.238
   #loadBalancerIP: 10.113.100.24
   #loadBalancerIP: 34.149.24.25
