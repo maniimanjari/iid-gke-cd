@@ -2,15 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: default
-  name: merope-app
+  name: merope-app-service
   creationTimestamp: null
   labels:
-    app: merope-app
+    app: merope-app-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: merope-app
+      app: merope-app-service
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,22 +20,22 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: merope-app
+        app: merope-app-service
     spec:
       containers:
         - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/iid/merope-app:6.6
-          name: merope-app
+          name: merope-app-service
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Dserver.port=80 -Dspring.application.name=merope-app"
+              value: "-Dserver.port=80 -Dspring.application.name=merope-app-service"
             - name: SPRING_PROFILES_ACTIVE
               value: "qa"
             - name: SPRING_APPLICATION_NAME
               value: "merope-app"
           livenessProbe:
             httpGet:
-              path: /message
+              path: /actuator/health
               port: 80
             initialDelaySeconds: 80
             periodSeconds: 30

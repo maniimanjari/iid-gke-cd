@@ -3,12 +3,11 @@ kind: BackendConfig
 metadata:
   name: merope-backendconfig
 spec:
-  timeoutSec: 300
+  timeoutSec: 1800
   connectionDraining:
     drainingTimeoutSec: 1800
   healthCheck:
-    checkIntervalSec: 300
-    timeoutSec: 300
+    checkIntervalSec: 15
     type: HTTP
     requestPath: /actuator/health
     port: 80
