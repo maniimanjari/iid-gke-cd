@@ -32,7 +32,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "qa"
             - name: SPRING_APPLICATION_NAME
-              value: "merope-app"
+              value: "merope-app-service"
           livenessProbe:
             httpGet:
               path: /actuator/health
