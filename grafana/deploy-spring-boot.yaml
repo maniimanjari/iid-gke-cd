@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: gs-spring-boot
+  name: gs-spring-boot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gs-spring-boot
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gs-spring-boot
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: gs-spring-boot
+          image: bxghosh/gs-spring-boot:v1
+          resources: {}
+status: {}
