@@ -1,0 +1,15 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: merope-managed-cert
+spec:
+  domains:
+    - merope-service.iid-qa.uccenter.com
+
+#    - ci-email-processor.iid-qa.uccenter.com
+#    - ci-email-reprocessor.iid-qa.uccenter.com
+#    - ciapi-wso2is-authentication-log-service.iid-qa.uccenter.com
+#    - internal-customer-service.iid-qa.uccenter.com
+#    - internal-customer-subscription-service.iid-qa.uccenter.com
+#    - internal-user-service.iid-qa.uccenter.com
+#    - internal-user-subscription-service.iid-qa.uccenter.com

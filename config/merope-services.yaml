@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  creationTimestamp: null
+  name: merope-service-qa
+  #resourceVersion: "1.0"
+  #uid: f6fbeddf-7555-49d9-ad83-204516ca2c75
+data:
+  application-qa.yml: |
+    ---
+    management:
+      endpoint:
+        health:
+          show-details: always
+    merope:
+      addnode: "false"
+      deleteallnodes: "false"
+      deletenode: "false"
+      dumpallnodes: "false"
+      getfirstnode: "false"
+      getnode: "false"
+      master_config_nodes_check_interval: "60 seconds"
+      master_config_nodes_uri: "https://fraud.set.iconf.net/merope.html"
+      redisURL: "10.250.222.35"
+      redisport: "6379"
+      shared_admin_key: 7f9f3190a2aa5be1b404a79d76896e94
+      system: merope

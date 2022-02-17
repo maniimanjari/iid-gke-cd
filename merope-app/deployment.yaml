@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: merope-app
+  creationTimestamp: null
+  labels:
+    app: merope-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: merope-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: merope-app
+    spec:
+      containers:
+        - image: gcr.io/cc-bo-portals-devtest-01/merope/merope-app:6.5
+          name: merope-app
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port=80 -Dspring.application.name=merope-app"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "qa"
+            - name: SPRING_APPLICATION_NAME
+              value: "merope-app"
+          livenessProbe:
+            httpGet:
+              path: /message
+              port: 80
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 4
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: merope-app
+              mountPath: /config
+      volumes:
+        - name: merope-app
+          configMap:
+            name: merope-service-qa
+status: {}

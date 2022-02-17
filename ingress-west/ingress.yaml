@@ -4,7 +4,7 @@ metadata:
   name: iid-ingress-west
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "iid-qa-west-static-ip"
-    networking.gke.io/managed-certificates: "iid-managed-cert-west"
+    networking.gke.io/managed-certificates: "iid-managed-cert-west,merope-managed-cert-west"
     networking.gke.io/v1beta1.FrontendConfig: "iid-frontend-ssl-redirect-config-west"
 spec:
   rules:
@@ -296,6 +296,16 @@ spec:
           backend:
             service:
               name: dps-alert-monitor-ui
+              port:
+                number: 80
+  - host: merope-service.iid-qa.uccenter.com
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: merope-app-service
               port:
                 number: 80
 # temporary  mapping
