@@ -47,7 +47,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'merope-deploy'
-  args: ['apply', '-f', 'merope-app']
+  args: ['apply', '-f', 'merope-app-service']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'

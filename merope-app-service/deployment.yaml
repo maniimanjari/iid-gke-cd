@@ -28,11 +28,11 @@ spec:
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Dspring.application.name=merope-app"
+              value: "-Dspring.application.name=merope-app-service"
             - name: SPRING_PROFILES_ACTIVE
               value: "qa"
             - name: SPRING_APPLICATION_NAME
-              value: "merope-app"
+              value: "merope-app-service"
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -43,10 +43,10 @@ spec:
             failureThreshold: 4
             timeoutSeconds: 30
           volumeMounts:
-            - name: merope-app
+            - name: merope-app-service
               mountPath: /config
       volumes:
-        - name: merope-app
+        - name: merope-app-service
           configMap:
             name: merope-service-qa
 status: {}
