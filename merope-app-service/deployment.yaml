@@ -23,12 +23,12 @@ spec:
         app: merope-app-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/merope/merope-app:6.7
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/merope/merope-app:latest
           name: merope-app-service
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Dspring.application.name=merope-app-service"
+              value: "-Dserver.port=80 -Dspring.application.name=merope-app-service"
             - name: SPRING_PROFILES_ACTIVE
               value: "qa"
             - name: SPRING_APPLICATION_NAME
