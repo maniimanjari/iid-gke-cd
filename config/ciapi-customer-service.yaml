@@ -243,21 +243,6 @@ data:
     eureka.client.enabled: false
     management.health.rabbit.enabled: false
     message: '****|CIAPI-CUSTOMER-SERVICE|****'
-#    ---
-#    spring:
-#      datasource:
-#        url: 'jdbc:postgresql://cidmdb-rw-qa-den06.west.com:5432/cidmdb?currentSchema=ciapi_qa'
-#      config:
-#        activate:
-#          on-profile: den06-qa | gcp-den06-qa
-#    ---
-#    spring:
-#      datasource:
-#        url: 'jdbc:postgresql://cidmdb-rw-qa-swn01.west.com:5432/cidmdb?currentSchema=ciapi_qa'
-#      config:
-#        activate:
-#          on-profile: swn01-qa | gcp-swn01-qa
-
   application-den06-qa.yml: |
     spring:
       datasource:
