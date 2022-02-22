@@ -1,0 +1,61 @@
+steps:
+#- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#  id: 'post-build'
+#  args: ['bash', './post-build.sh']
+#  env:
+#    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+#    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+#    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+#    - '_DESTINATION_PROJECT_ID=${_DESTINATION_PROJECT_ID}'
+#  waitFor:
+#    - '-'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'set-up'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+
+      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $PROJECT_ID
+      ./post-build.sh
+#      src_image=$(kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" -l app=ci-catalog-service)
+#      dest_image=$(kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" -l app=ci-catalog-service| sed 's/$PROJECT_ID/$_DESTINATION_PROJECT_ID/g')
+#      docker pull $src_image
+#      docker tag $src_image $dest_image
+#      docker push $dest_image
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+    - '_DESTINATION_PROJECT_ID=${_DESTINATION_PROJECT_ID}'
+  waitFor: ['-']
+
+#  - name: gcr.io/cloud-builders/docker
+#    args:
+#      - pull
+#      - 'us-central1-docker.pkg.dev/$PROJECT_ID/${_APPNAME}:${_VERSION}'
+#    id: 19.03.01
+#  - name: gcr.io/cloud-builders/docker
+#    args:
+#      - tag
+#      - 'us-central1-docker.pkg.dev/$PROJECT_ID/${_APPNAME}:${_VERSION}'
+#      - us-central1-docker.pkg.dev/${_DESTINATION_PROJECT_ID}/${_APPNAME}:${_VERSION}
+#    id: 19.03.02
+#    waitFor:
+#      - 19.03.01
+#  - name: gcr.io/cloud-builders/docker
+#    args:
+#      - push
+#      - us-central1-docker.pkg.dev/${_DESTINATION_PROJECT_ID}/${_APPNAME}:${_VERSION}
+#    id: 19.03.03
+#    waitFor:
+#      - 19.03.02
+options:
+  workerPool: projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool
+substitutions:
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  _DESTINATION_PROJECT_ID: cc-bo-portals-devtest-02
+#  _APPNAME: iid/ci-catalog-service
