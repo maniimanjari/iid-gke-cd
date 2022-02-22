@@ -23,7 +23,7 @@ spec:
         app: merope-app-service
     spec:
       containers:
-        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/merope/merope-app:latest
+        - image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/merope/merope:NR-202202220816-743103c
           name: merope-app-service
           imagePullPolicy: Always
           env:
