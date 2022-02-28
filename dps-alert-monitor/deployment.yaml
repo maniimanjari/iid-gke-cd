@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: dps-alert-monitor-ui
-          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/dps/dps-alert-monitor-ui:latest
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/dps/dps-alert-monitor-ui:FB-DPSC-2689-202202280904-c4bd655
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
