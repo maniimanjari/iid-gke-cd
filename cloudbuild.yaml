@@ -52,6 +52,7 @@ steps:
               kubectl apply -f ./managed-certificates/google-managed-west.yaml
           fi
       fi
+      kubectl wait --for=condition=available --timeout=600s deployment --all -n default
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
@@ -128,6 +129,15 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'push-ingress'
   args: ['apply', '-f', '${_CLOUDSDK_CONTAINER_INGRESS}']
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['set-up','prepare-build','push-configs','push-apis','push-portals']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'wait&watch'
+  args: ['apply', 'wait', '--for=condition=available','--timeout=600s','deployment','--all','-n','default']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
