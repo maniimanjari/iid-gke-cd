@@ -137,7 +137,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'wait&watch'
-  args: ['apply', 'wait', '--for=condition=available','--timeout=600s','deployment','--all','-n','default']
+  args: ['wait', '--for=condition=available','--timeout=600s','deployment','--all','-n','default']
   env:
     - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
     - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
