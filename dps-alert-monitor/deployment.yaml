@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: dps-alert-monitor-ui
-          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/dps/dps-alert-monitor-ui:FB-devops-221-202203030516-4835987
+          image: us-central1-docker.pkg.dev/cc-bo-portals-devtest-01/dps/dps-alert-monitor-ui:FB-hoot-517-202202280935-945cb70
           imagePullPolicy: Always
           env:
             - name: JAVA_TOOL_OPTIONS
