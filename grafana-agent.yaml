@@ -1,0 +1,39 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Add-Grafana-Agent'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      export PROJECT_ID=$_CLOUDSDK_CORE_PROJECT
+      #central
+      gcloud container clusters get-credentials $_CLOUDSDK_CONTAINER_CLUSTER --region $_CLOUDSDK_COMPUTE_ZONE --project $PROJECT_ID
+      kubectl config rename-context $(kubectl config current-context) $_CLOUDSDK_CONTAINER_CLUSTER 
+      ./grafana/metrics-gke.sh $(kubectl config current-context)
+      ./grafana/logs-gke.sh $(kubectl config current-context)
+
+      #west
+      gcloud container clusters get-credentials $_WEST_CLOUDSDK_CONTAINER_CLUSTER --region $_WEST_CLOUDSDK_COMPUTE_ZONE --project $PROJECT_ID
+      kubectl config rename-context $(kubectl config current-context) $_WEST_CLOUDSDK_CONTAINER_CLUSTER
+      ./grafana/metrics-gke.sh $(kubectl config current-context)
+      ./grafana/logs-gke.sh $(kubectl config current-context)
+
+  env:
+    - 'CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}'
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+  waitFor: ['-']
+
+timeout: 600s
+options:
+  workerPool: 'projects/cc-bo-portals-devtest-01/locations/us-central1/workerPools/cloud-build-private-pool'
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _CLOUDSDK_CORE_PROJECT: 'cc-bo-portals-devtest-01'
+  #central
+  _CLOUDSDK_COMPUTE_ZONE: 'us-central1'
+  _CLOUDSDK_CONTAINER_CLUSTER: 'us-central1-cluster-1'
+  #west
+  _WEST_CLOUDSDK_COMPUTE_ZONE: 'us-west1'
+  _WEST_CLOUDSDK_CONTAINER_CLUSTER: 'us-west1-cluster-1'
+
