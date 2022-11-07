@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snappass-redis
+  labels:
+    name: snappass-redis
+    tier: backend
+    app: snappass
+spec:
+  selector:
+    matchLabels:
+      app: snappass
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: snappass-redis
+        app: snappass
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379

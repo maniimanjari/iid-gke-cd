@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snappass-nginx
+  labels:
+    name: snappass-nginx
+    tier: frontend
+    app: snappass
+spec:
+  selector:
+    matchLabels:
+      app: snappass
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: snappass-nginx
+        app: snappass
+    spec:
+      containers:
+        - name: snappass-nginx
+          image: us.gcr.io/magnetic-tesla-367611/snappass-nginx:5260cdd5cefd51e0fbd07c1927e4c803560c3f82
+          ports:
+            - containerPort: 443

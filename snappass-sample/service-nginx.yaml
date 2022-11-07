@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: snappass
+    name: snappass-nginx
+    tier: frontend
+  name: snappass-nginx
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: snappass
+  type: LoadBalancer
+status:
+  loadBalancer: {}

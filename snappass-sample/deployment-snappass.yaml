@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snappass
+  labels:
+    name: snappass
+    tier: backend
+    app: snappass
+spec:
+  selector:
+    matchLabels:
+      app: snappass
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: snappass
+        app: snappass
+    spec:
+      containers:
+        - name: snappass
+          image: us.gcr.io/magnetic-tesla-367611/snappass@sha256:ed383685ee7a8407dcd917f6cfb0c6ef74171ffdbaf4f3e5edf0200baacb3772
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: "snappass-redis"
